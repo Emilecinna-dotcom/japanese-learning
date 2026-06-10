@@ -1,0 +1,31 @@
+import type { VocabTheme } from '@/types/vocabulary'
+
+export const SALUTATIONS_THEME: VocabTheme = {
+  id: 'salutations',
+  labelFR: 'Salutations',
+  icon: 'hand-wave',
+  description: 'Bonjour, merci, au revoir...',
+  colorClass: 'text-yellow-500',
+  items: [
+    { id: 's1',  japanese: 'おはようございます', kana: 'おはようございます', romaji: 'ohayou gozaimasu', frenchTranslation: 'bonjour (matin, formel)', category: 'base', level: 'débutant', tags: ['salutation'],
+      exampleSentence: { japanese: 'おはようございます！', kana: 'おはようございます！', frenchTranslation: 'Bonjour ! (le matin)' } },
+    { id: 's2',  japanese: 'おはよう', kana: 'おはよう', romaji: 'ohayou', frenchTranslation: "bonjour (matin, informel)", category: 'base', level: 'débutant', tags: ['salutation'] },
+    { id: 's3',  japanese: 'こんにちは', kana: 'こんにちは', romaji: 'konnichiwa', frenchTranslation: 'bonjour (journée)', category: 'base', level: 'débutant', tags: ['salutation'] },
+    { id: 's4',  japanese: 'こんばんは', kana: 'こんばんは', romaji: 'konbanwa', frenchTranslation: 'bonsoir', category: 'base', level: 'débutant', tags: ['salutation'] },
+    { id: 's5',  japanese: 'おやすみなさい', kana: 'おやすみなさい', romaji: 'oyasumi nasai', frenchTranslation: 'bonne nuit (formel)', category: 'base', level: 'débutant', tags: ['salutation'] },
+    { id: 's6',  japanese: 'さようなら', kana: 'さようなら', romaji: 'sayounara', frenchTranslation: 'au revoir (formel, longue séparation)', category: 'base', level: 'débutant', tags: ['salutation'] },
+    { id: 's7',  japanese: 'じゃあね', kana: 'じゃあね', romaji: 'jaa ne', frenchTranslation: 'à plus (informel)', category: 'base', level: 'débutant', tags: ['salutation'] },
+    { id: 's8',  japanese: 'ありがとうございます', kana: 'ありがとうございます', romaji: 'arigatou gozaimasu', frenchTranslation: 'merci (formel)', category: 'politesse', level: 'débutant', tags: ['politesse'] },
+    { id: 's9',  japanese: 'ありがとう', kana: 'ありがとう', romaji: 'arigatou', frenchTranslation: 'merci (informel)', category: 'politesse', level: 'débutant', tags: ['politesse'] },
+    { id: 's10', japanese: 'すみません', kana: 'すみません', romaji: 'sumimasen', frenchTranslation: 'excusez-moi / pardon', category: 'politesse', level: 'débutant', tags: ['politesse'] },
+    { id: 's11', japanese: 'ごめんなさい', kana: 'ごめんなさい', romaji: 'gomen nasai', frenchTranslation: 'je suis désolé(e)', category: 'politesse', level: 'débutant', tags: ['politesse'] },
+    { id: 's12', japanese: 'はい', kana: 'はい', romaji: 'hai', frenchTranslation: 'oui (formel)', category: 'base', level: 'débutant', tags: ['réponse'] },
+    { id: 's13', japanese: 'いいえ', kana: 'いいえ', romaji: 'iie', frenchTranslation: 'non', category: 'base', level: 'débutant', tags: ['réponse'] },
+    { id: 's14', japanese: 'よろしくおねがいします', kana: 'よろしくおねがいします', romaji: 'yoroshiku onegai shimasu', frenchTranslation: 'enchanté(e) / je vous en prie', category: 'présentation', level: 'débutant', tags: ['politesse'] },
+    { id: 's15', japanese: 'はじめまして', kana: 'はじめまして', romaji: 'hajimemashite', frenchTranslation: 'enchanté(e) (première rencontre)', category: 'présentation', level: 'débutant', tags: ['présentation'] },
+    { id: 's16', japanese: 'おげんきですか', kana: 'おげんきですか', romaji: 'ogenki desu ka', frenchTranslation: 'comment allez-vous ?', category: 'présentation', level: 'débutant', tags: ['question'] },
+    { id: 's17', japanese: 'げんきです', kana: 'げんきです', romaji: 'genki desu', frenchTranslation: 'je vais bien', category: 'présentation', level: 'débutant', tags: ['réponse'] },
+    { id: 's18', japanese: 'いただきます', kana: 'いただきます', romaji: 'itadakimasu', frenchTranslation: "bon appétit (avant de manger)", category: 'repas', level: 'débutant', tags: ['repas'] },
+    { id: 's19', japanese: 'ごちそうさまでした', kana: 'ごちそうさまでした', romaji: 'gochisousama deshita', frenchTranslation: "merci pour le repas (après avoir mangé)", category: 'repas', level: 'débutant', tags: ['repas'] },
+  ],
+}

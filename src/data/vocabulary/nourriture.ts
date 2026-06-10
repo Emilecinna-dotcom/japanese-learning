@@ -1,0 +1,31 @@
+import type { VocabTheme } from '@/types/vocabulary'
+
+export const NOURRITURE_THEME: VocabTheme = {
+  id: 'nourriture',
+  labelFR: 'La nourriture',
+  icon: 'utensils',
+  description: 'Manger et boire au Japon',
+  colorClass: 'text-orange-500',
+  items: [
+    { id: 'n1',  japanese: 'ご飯', kana: 'ごはん', romaji: 'gohan', frenchTranslation: 'riz cuit / repas', category: 'féculents', level: 'débutant', tags: ['nourriture', 'essentiel'] },
+    { id: 'n2',  japanese: 'パン', kana: 'パン', romaji: 'pan', frenchTranslation: 'pain', category: 'féculents', level: 'débutant', tags: ['nourriture', 'katakana'] },
+    { id: 'n3',  japanese: 'ラーメン', kana: 'ラーメン', romaji: 'raamen', frenchTranslation: 'ramen (nouilles)', category: 'plats', level: 'débutant', tags: ['nourriture', 'katakana'] },
+    { id: 'n4',  japanese: 'うどん', kana: 'うどん', romaji: 'udon', frenchTranslation: 'udon (grosses nouilles)', category: 'plats', level: 'débutant', tags: ['nourriture'] },
+    { id: 'n5',  japanese: 'そば', kana: 'そば', romaji: 'soba', frenchTranslation: 'soba (nouilles de sarrasin)', category: 'plats', level: 'débutant', tags: ['nourriture'] },
+    { id: 'n6',  japanese: 'すし', kana: 'すし', romaji: 'sushi', frenchTranslation: 'sushi', category: 'plats', level: 'débutant', tags: ['nourriture'] },
+    { id: 'n7',  japanese: '刺身', kana: 'さしみ', romaji: 'sashimi', frenchTranslation: 'sashimi (poisson cru)', category: 'plats', level: 'débutant', tags: ['nourriture'] },
+    { id: 'n8',  japanese: '天ぷら', kana: 'てんぷら', romaji: 'tenpura', frenchTranslation: 'tempura (beignets)', category: 'plats', level: 'débutant', tags: ['nourriture'] },
+    { id: 'n9',  japanese: '水', kana: 'みず', romaji: 'mizu', frenchTranslation: 'eau', category: 'boissons', level: 'débutant', tags: ['boisson', 'essentiel'] },
+    { id: 'n10', japanese: 'お茶', kana: 'おちゃ', romaji: 'ocha', frenchTranslation: 'thé (japonais)', category: 'boissons', level: 'débutant', tags: ['boisson'] },
+    { id: 'n11', japanese: 'コーヒー', kana: 'コーヒー', romaji: 'koohii', frenchTranslation: 'café', category: 'boissons', level: 'débutant', tags: ['boisson', 'katakana'] },
+    { id: 'n12', japanese: 'ビール', kana: 'ビール', romaji: 'biiru', frenchTranslation: 'bière', category: 'boissons', level: 'débutant', tags: ['boisson', 'katakana'] },
+    { id: 'n13', japanese: '肉', kana: 'にく', romaji: 'niku', frenchTranslation: 'viande', category: 'ingrédients', level: 'débutant', tags: ['nourriture'] },
+    { id: 'n14', japanese: '魚', kana: 'さかな', romaji: 'sakana', frenchTranslation: 'poisson', category: 'ingrédients', level: 'débutant', tags: ['nourriture'] },
+    { id: 'n15', japanese: '野菜', kana: 'やさい', romaji: 'yasai', frenchTranslation: 'légumes', category: 'ingrédients', level: 'débutant', tags: ['nourriture'] },
+    { id: 'n16', japanese: '卵', kana: 'たまご', romaji: 'tamago', frenchTranslation: 'œuf', category: 'ingrédients', level: 'débutant', tags: ['nourriture'] },
+    { id: 'n17', japanese: 'りんご', kana: 'りんご', romaji: 'ringo', frenchTranslation: 'pomme', category: 'fruits', level: 'débutant', tags: ['fruit'] },
+    { id: 'n18', japanese: 'バナナ', kana: 'バナナ', romaji: 'banana', frenchTranslation: 'banane', category: 'fruits', level: 'débutant', tags: ['fruit', 'katakana'] },
+    { id: 'n19', japanese: 'みかん', kana: 'みかん', romaji: 'mikan', frenchTranslation: 'mandarine', category: 'fruits', level: 'débutant', tags: ['fruit'] },
+    { id: 'n20', japanese: 'おいしい', kana: 'おいしい', romaji: 'oishii', frenchTranslation: 'délicieux', category: 'adjectifs', level: 'débutant', tags: ['adjectif'] },
+  ],
+}

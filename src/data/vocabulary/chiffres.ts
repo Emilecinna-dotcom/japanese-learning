@@ -1,0 +1,30 @@
+import type { VocabTheme } from '@/types/vocabulary'
+
+export const CHIFFRES_THEME: VocabTheme = {
+  id: 'chiffres',
+  labelFR: 'Les chiffres',
+  icon: 'hash',
+  description: 'Compter de 0 à 10 000',
+  colorClass: 'text-blue-500',
+  items: [
+    { id: 'c0',  japanese: 'ゼロ', kana: 'ゼロ', romaji: 'zero',  frenchTranslation: 'zéro',       category: 'entiers', level: 'débutant', tags: ['chiffre'] },
+    { id: 'c1',  japanese: '一',   kana: 'いち',  romaji: 'ichi',  frenchTranslation: 'un',          category: 'entiers', level: 'débutant', tags: ['chiffre'] },
+    { id: 'c2',  japanese: '二',   kana: 'に',    romaji: 'ni',    frenchTranslation: 'deux',        category: 'entiers', level: 'débutant', tags: ['chiffre'] },
+    { id: 'c3',  japanese: '三',   kana: 'さん',  romaji: 'san',   frenchTranslation: 'trois',       category: 'entiers', level: 'débutant', tags: ['chiffre'] },
+    { id: 'c4',  japanese: '四',   kana: 'し/よん', romaji: 'shi/yon', frenchTranslation: 'quatre',  category: 'entiers', level: 'débutant', tags: ['chiffre'] },
+    { id: 'c5',  japanese: '五',   kana: 'ご',    romaji: 'go',    frenchTranslation: 'cinq',        category: 'entiers', level: 'débutant', tags: ['chiffre'] },
+    { id: 'c6',  japanese: '六',   kana: 'ろく',  romaji: 'roku',  frenchTranslation: 'six',         category: 'entiers', level: 'débutant', tags: ['chiffre'] },
+    { id: 'c7',  japanese: '七',   kana: 'しち/なな', romaji: 'shichi/nana', frenchTranslation: 'sept', category: 'entiers', level: 'débutant', tags: ['chiffre'] },
+    { id: 'c8',  japanese: '八',   kana: 'はち',  romaji: 'hachi', frenchTranslation: 'huit',        category: 'entiers', level: 'débutant', tags: ['chiffre'] },
+    { id: 'c9',  japanese: '九',   kana: 'く/きゅう', romaji: 'ku/kyuu', frenchTranslation: 'neuf',  category: 'entiers', level: 'débutant', tags: ['chiffre'] },
+    { id: 'c10', japanese: '十',   kana: 'じゅう', romaji: 'juu',  frenchTranslation: 'dix',         category: 'entiers', level: 'débutant', tags: ['chiffre'] },
+    { id: 'c11', japanese: '十一', kana: 'じゅういち', romaji: 'juuichi', frenchTranslation: 'onze',  category: 'entiers', level: 'débutant', tags: ['chiffre'] },
+    { id: 'c12', japanese: '十二', kana: 'じゅうに', romaji: 'juuni', frenchTranslation: 'douze',    category: 'entiers', level: 'débutant', tags: ['chiffre'] },
+    { id: 'c20', japanese: '二十', kana: 'にじゅう', romaji: 'nijuu', frenchTranslation: 'vingt',    category: 'entiers', level: 'débutant', tags: ['chiffre'] },
+    { id: 'c100', japanese: '百',  kana: 'ひゃく', romaji: 'hyaku', frenchTranslation: 'cent',       category: 'centaines', level: 'débutant', tags: ['chiffre'] },
+    { id: 'c200', japanese: '二百', kana: 'にひゃく', romaji: 'nihyaku', frenchTranslation: 'deux cents', category: 'centaines', level: 'débutant', tags: ['chiffre'] },
+    { id: 'c300', japanese: '三百', kana: 'さんびゃく', romaji: 'sanbyaku', frenchTranslation: 'trois cents', category: 'centaines', level: 'intermédiaire', tags: ['chiffre'] },
+    { id: 'c1000', japanese: '千',  kana: 'せん',  romaji: 'sen',   frenchTranslation: 'mille',      category: 'milliers', level: 'débutant', tags: ['chiffre'] },
+    { id: 'c10000', japanese: '一万', kana: 'いちまん', romaji: 'ichiman', frenchTranslation: 'dix mille', category: 'milliers', level: 'intermédiaire', tags: ['chiffre'] },
+  ],
+}
