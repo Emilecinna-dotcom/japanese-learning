@@ -2,6 +2,7 @@ import { Outlet } from 'react-router-dom'
 import { useState, memo, useRef, useEffect } from 'react'
 import { Menu, Moon, Sun, X } from 'lucide-react'
 import { Sidebar } from './Sidebar'
+import { BottomNav } from './BottomNav'
 import { NavLink } from 'react-router-dom'
 import { cn } from '@/lib/utils'
 import { useProgressContext } from '@/hooks/useProgress'
@@ -181,6 +182,7 @@ export function AppLayout() {
             { to: '/hiragana', label: 'Hiragana' },
             { to: '/katakana', label: 'Katakana' },
             { to: '/kanji', label: 'Kanji N5' },
+            { to: '/telephone', label: 'Téléphone' },
             { to: '/vocabulaire', label: 'Vocabulaire' },
             { to: '/grammaire', label: 'Grammaire' },
             { to: '/flashcards', label: 'Flashcards' },
@@ -211,11 +213,13 @@ export function AppLayout() {
           </button>
         </header>
 
-        {/* Page content */}
-        <main className="flex-1 p-4 md:p-6 max-w-5xl w-full mx-auto">
+        {/* Page content — padding bottom pour la bottom nav + safe area iOS */}
+        <main className="flex-1 p-4 md:p-6 max-w-5xl w-full mx-auto" style={{ paddingBottom: 'calc(5rem + env(safe-area-inset-bottom))' }}>
           <Outlet />
         </main>
       </div>
+
+      <BottomNav />
     </div>
   )
 }

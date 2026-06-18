@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Brain, BookOpen } from 'lucide-react'
+import { useSpeech } from '@/hooks/useSpeech'
 import { HIRAGANA_ROWS, HIRAGANA_DAKUTEN, ALL_HIRAGANA } from '@/data/hiragana'
 import { KanaCard } from '@/components/kana/KanaCard'
 import { KanaDetailPanel } from '@/components/kana/KanaDetailPanel'
@@ -14,6 +15,7 @@ export function HiraganaPage() {
   const [tab, setTab] = useState<'apprendre' | 'quiz'>('apprendre')
   const [showDakuten, setShowDakuten] = useState(false)
   const [selected, setSelected] = useState<KanaCharacter | null>(null)
+  const { speak } = useSpeech()
 
   const baseKana = HIRAGANA_ROWS.flatMap(r => r.characters)
   const quiz = useKanaQuiz(ALL_HIRAGANA, showDakuten ? ALL_HIRAGANA : baseKana)
@@ -100,7 +102,7 @@ export function HiraganaPage() {
                     kana={kana}
                     isLearned={learnedSet.has(kana.id)}
                     isMastered={masteredSet.has(kana.id)}
-                    onClick={() => setSelected(kana)}
+                    onClick={() => { speak(kana.kana); setSelected(kana) }}
                   />
                 ))}
               </div>
@@ -117,7 +119,7 @@ export function HiraganaPage() {
                     kana={kana}
                     isLearned={learnedSet.has(kana.id)}
                     isMastered={masteredSet.has(kana.id)}
-                    onClick={() => setSelected(kana)}
+                    onClick={() => { speak(kana.kana); setSelected(kana) }}
                   />
                 ))}
               </div>

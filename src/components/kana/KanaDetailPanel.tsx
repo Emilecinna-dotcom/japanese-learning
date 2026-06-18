@@ -1,5 +1,6 @@
 import { X } from 'lucide-react'
 import type { KanaCharacter } from '@/types/kana'
+import { SpeakButton } from '@/components/SpeakButton'
 
 interface KanaDetailPanelProps {
   kana: KanaCharacter
@@ -22,7 +23,10 @@ export function KanaDetailPanel({ kana, onClose, onMarkLearned, isLearned }: Kan
         {/* Big character */}
         <div className="text-center mb-6">
           <div className="font-jp text-9xl leading-none mb-3 text-foreground">{kana.kana}</div>
-          <div className="text-2xl font-mono tracking-widest text-primary font-semibold">{kana.romaji}</div>
+          <div className="flex items-center justify-center gap-3">
+            <div className="text-2xl font-mono tracking-widest text-primary font-semibold">{kana.romaji}</div>
+            <SpeakButton text={kana.kana} />
+          </div>
         </div>
 
         {/* Details */}

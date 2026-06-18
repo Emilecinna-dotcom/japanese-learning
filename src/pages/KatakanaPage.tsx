@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Brain, BookOpen } from 'lucide-react'
+import { useSpeech } from '@/hooks/useSpeech'
 import { KATAKANA_ROWS, ALL_KATAKANA } from '@/data/katakana'
 import { KanaCard } from '@/components/kana/KanaCard'
 import { KanaDetailPanel } from '@/components/kana/KanaDetailPanel'
@@ -13,6 +14,7 @@ export function KatakanaPage() {
   const { progress, markKanaLearned, markKanaMastered, recordQuizScore } = useProgressContext()
   const [tab, setTab] = useState<'apprendre' | 'quiz'>('apprendre')
   const [selected, setSelected] = useState<KanaCharacter | null>(null)
+  const { speak } = useSpeech()
 
   const quiz = useKanaQuiz(ALL_KATAKANA)
 
@@ -89,7 +91,7 @@ export function KatakanaPage() {
                     kana={kana}
                     isLearned={learnedSet.has(kana.id)}
                     isMastered={masteredSet.has(kana.id)}
-                    onClick={() => setSelected(kana)}
+                    onClick={() => { speak(kana.kana); setSelected(kana) }}
                   />
                 ))}
               </div>

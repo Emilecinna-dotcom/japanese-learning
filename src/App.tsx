@@ -8,6 +8,7 @@ import { VocabulairePage } from '@/pages/VocabulairePage'
 import { GrammairePage } from '@/pages/GrammairePage'
 import { FlashcardsPage } from '@/pages/FlashcardsPage'
 import { ProgressionPage } from '@/pages/ProgressionPage'
+import { TelephonePage } from '@/pages/TelephonePage'
 import { useProgress, ProgressContext } from '@/hooks/useProgress'
 
 // Router is created once at module level; pages read progress via context
@@ -23,6 +24,7 @@ const router = createBrowserRouter([
       { path: 'vocabulaire', element: <VocabulairePage /> },
       { path: 'grammaire', element: <GrammairePage /> },
       { path: 'flashcards', element: <FlashcardsPage /> },
+      { path: 'telephone', element: <TelephonePage /> },
       { path: 'progression', element: <ProgressionPage /> },
     ],
   },

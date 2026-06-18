@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Brain, BookOpen, ArrowLeft, CheckCircle2 } from 'lucide-react'
+import { SpeakButton } from '@/components/SpeakButton'
 import { ALL_THEMES } from '@/data/vocabulary'
 import { useVocabQuiz } from '@/hooks/useVocabQuiz'
 import { QuizCard } from '@/components/quiz/QuizCard'
@@ -117,6 +118,7 @@ function ThemeDetailView({ theme, onBack }: ThemeDetailViewProps) {
                     )}
                   </div>
                   <div className="flex flex-col items-end gap-2 shrink-0">
+                    <SpeakButton text={item.japanese} size="sm" />
                     <span className={cn('text-[10px] px-2 py-0.5 rounded-full font-bold', LEVEL_STYLE[item.level] ?? LEVEL_STYLE.débutant)}>
                       {item.level}
                     </span>

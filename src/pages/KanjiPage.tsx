@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react'
 import { Search, Brain, BookOpen } from 'lucide-react'
+import { SpeakButton } from '@/components/SpeakButton'
 import { KANJI_N5 } from '@/data/kanji-n5'
 import { useVocabQuiz } from '@/hooks/useVocabQuiz'
 import { QuizCard } from '@/components/quiz/QuizCard'
@@ -58,7 +59,10 @@ function KanjiDetailModal({ kanji, onClose, onMarkSeen, isSeen }: KanjiDetailMod
       <div className="bg-card rounded-2xl border border-border shadow-xl w-full max-w-md p-6 max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
         <div className="flex items-start justify-between mb-4">
           <span className="font-jp text-8xl leading-none">{kanji.character}</span>
-          <button onClick={onClose} className="text-muted-foreground hover:text-foreground text-xl p-1">✕</button>
+          <div className="flex items-center gap-2">
+            <SpeakButton text={kanji.character} />
+            <button onClick={onClose} className="text-muted-foreground hover:text-foreground text-xl p-1">✕</button>
+          </div>
         </div>
 
         <h2 className="text-xl font-bold mb-1">{kanji.meaningFR.join(', ')}</h2>

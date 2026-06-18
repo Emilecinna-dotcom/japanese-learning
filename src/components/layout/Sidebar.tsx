@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { BookOpen, Pencil, AlignLeft, Zap, BarChart2, SquareLibrary, Home } from 'lucide-react'
+import { BookOpen, Pencil, AlignLeft, Zap, BarChart2, SquareLibrary, Home, Smartphone } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface NavItemProps {
@@ -81,6 +81,7 @@ export function Sidebar({ dueCount }: SidebarProps) {
           </p>
           <div className="space-y-0.5">
             <NavItem to="/kanji" icon={<SquareLibrary size={15} />} label="Kanji N5" labelJP="漢字" />
+            <NavItem to="/telephone" icon={<Smartphone size={15} />} label="Téléphone" labelJP="スマホ" />
           </div>
         </div>
 
