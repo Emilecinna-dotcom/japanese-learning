@@ -1,428 +1,382 @@
 import { Link } from 'react-router-dom'
-import { useRef } from 'react'
-import { BookOpen, Pencil, SquareLibrary, AlignLeft, Zap, BarChart2, ArrowRight, Flame } from 'lucide-react'
+import { ArrowRight, Flame, Gamepad2, BookOpen, BarChart2, Sparkles, PenTool, Route as RouteIcon } from 'lucide-react'
 import { ALL_HIRAGANA } from '@/data/hiragana'
 import { ALL_KATAKANA } from '@/data/katakana'
 import { KANJI_N5 } from '@/data/kanji-n5'
 import { ALL_THEMES } from '@/data/vocabulary'
-import { GRAMMAR_POINTS } from '@/data/grammaire'
 import { useProgressContext } from '@/hooks/useProgress'
-import { useTilt } from '@/hooks/useTilt'
+import { HIRAGANA_UNIT } from '@/data/curriculum'
+import { PASS_PERCENT } from '@/lib/parcours'
 
-const GALLERY = [
-  { src: '/images/tokyo-ikebukuro.jpg', label: 'Ikebukuro',     sub: '池袋の夜',         type: 'japan' },
-  { src: '/images/skyline-gtr.jpg',     label: 'Nissan Skyline', sub: 'スカイライン',     type: 'car'   },
-  { src: '/images/shinjuku.jpg',        label: 'Shinjuku',       sub: '新宿の夜',         type: 'japan' },
-  { src: '/images/gtr-r34.jpg',         label: 'GT-R R34',       sub: 'スカイライン R34', type: 'car'   },
-  { src: '/images/tokyo-night.jpg',     label: 'Tokyo la nuit',  sub: '東京の夜',         type: 'japan' },
-  { src: '/images/supra.jpg',           label: 'Toyota Supra',   sub: 'スープラ',         type: 'car'   },
-  { src: '/images/rue-japonaise.jpg',   label: 'Rue japonaise',  sub: '日本の街',         type: 'japan' },
-  { src: '/images/nissan-r34.jpg',      label: 'Skyline GT-R',   sub: '日産スカイライン', type: 'car'   },
+// ── Phrase du jour ──────────────────────────────────────────────
+const PHRASES = [
+  { jp: '少しずつ上手になっています。', romaji: 'Sukoshi zutsu jōzu ni natte imasu.', fr: 'Tu progresses petit à petit.' },
+  { jp: '継続は力なり。', romaji: 'Keizoku wa chikara nari.', fr: 'La persévérance, c\'est la force.' },
+  { jp: '頑張ってください！', romaji: 'Ganbatte kudasai !', fr: 'Fais de ton mieux !' },
+  { jp: 'できる！', romaji: 'Dekiru !', fr: 'Tu en es capable !' },
+  { jp: '失敗しても大丈夫。', romaji: 'Shippai shite mo daijōbu.', fr: 'Ce n\'est pas grave de faire des erreurs.' },
+  { jp: '一歩一歩進もう。', romaji: 'Ippo ippo susumō.', fr: 'Avançons pas à pas.' },
+  { jp: '毎日練習しましょう。', romaji: 'Mainichi renshū shimashō.', fr: 'Pratiquons chaque jour.' },
+  { jp: '自信を持って！', romaji: 'Jishin wo motte !', fr: 'Aie confiance en toi !' },
+  { jp: '日本語は難しいけど面白い。', romaji: 'Nihongo wa muzukashii kedo omoshiroi.', fr: 'Le japonais est difficile mais passionnant.' },
+  { jp: 'やればできる。', romaji: 'Yareba dekiru.', fr: 'Si tu fais l\'effort, tu y arrives.' },
+  { jp: 'ゆっくりでいいです。', romaji: 'Yukkuri de ii desu.', fr: 'Prends ton temps, c\'est bien.' },
+  { jp: '今日も一緒に勉強しましょう。', romaji: 'Kyō mo issho ni benkyō shimashō.', fr: 'Étudions ensemble aujourd\'hui encore.' },
+  { jp: '一日一日が大切。', romaji: 'Ichinichi ichinichi ga taisetsu.', fr: 'Chaque journée compte.' },
+  { jp: 'どんどん上手になっているよ。', romaji: 'Dondon jōzu ni natte iru yo.', fr: 'Tu t\'améliores de plus en plus.' },
 ]
 
-function GalleryCard({ img }: { img: typeof GALLERY[0] }) {
-  const { ref, onMouseMove, onMouseLeave, onMouseEnter } = useTilt(16)
-  const src = img.src
-  return (
-    <div
-      ref={ref}
-      onMouseMove={onMouseMove}
-      onMouseLeave={onMouseLeave}
-      onMouseEnter={onMouseEnter}
-      className="shrink-0 snap-start w-52 md:w-64 h-36 md:h-44 rounded-2xl overflow-hidden relative cursor-pointer group"
-      style={{ transformStyle: 'preserve-3d' }}
-    >
-      <div className="tilt-shine rounded-2xl z-20" />
-      <img
-        src={src}
-        alt={img.label}
-        className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-        loading="lazy"
-        decoding="async"
-      />
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-      {/* Badge type */}
-      <div className="absolute top-2.5 left-2.5 z-10" style={{ transform: 'translateZ(12px)' }}>
-        <span className={`text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full ${
-          img.type === 'car'
-            ? 'bg-amber-400/90 text-amber-900'
-            : 'bg-white/20 backdrop-blur-sm text-white'
-        }`}>
-          {img.type === 'car' ? '🚗 JDM' : '🗾 Japan'}
-        </span>
-      </div>
-      {/* Labels */}
-      <div className="absolute bottom-0 left-0 right-0 p-3 z-10" style={{ transform: 'translateZ(16px)' }}>
-        <p className="text-white font-bold text-sm leading-tight drop-shadow">{img.label}</p>
-        <p className="text-white/60 font-jp text-xs mt-0.5">{img.sub}</p>
-      </div>
-    </div>
-  )
-}
-
-const MODULES = [
-  {
-    to: '/hiragana',
-    icon: Pencil,
-    title: 'Hiragana',
-    titleJP: 'ひらがな',
-    desc: "L'alphabet syllabique de base",
-    gradient: 'from-rose-500/15 to-pink-400/10',
-    borderHover: 'hover:border-rose-400/60',
-    iconBg: 'bg-rose-500',
-    accentColor: 'text-rose-600 dark:text-rose-400',
-    progressColor: 'bg-rose-500',
-  },
-  {
-    to: '/katakana',
-    icon: Pencil,
-    title: 'Katakana',
-    titleJP: 'カタカナ',
-    desc: 'Pour les mots étrangers',
-    gradient: 'from-orange-500/15 to-amber-400/10',
-    borderHover: 'hover:border-orange-400/60',
-    iconBg: 'bg-orange-500',
-    accentColor: 'text-orange-600 dark:text-orange-400',
-    progressColor: 'bg-orange-500',
-  },
-  {
-    to: '/kanji',
-    icon: SquareLibrary,
-    title: 'Kanji N5',
-    titleJP: '漢字',
-    desc: '50 kanji essentiels JLPT N5',
-    gradient: 'from-amber-500/15 to-yellow-400/10',
-    borderHover: 'hover:border-amber-400/60',
-    iconBg: 'bg-amber-500',
-    accentColor: 'text-amber-600 dark:text-amber-400',
-    progressColor: 'bg-amber-500',
-  },
-  {
-    to: '/vocabulaire',
-    icon: BookOpen,
-    title: 'Vocabulaire',
-    titleJP: '語彙',
-    desc: '8 thèmes du quotidien',
-    gradient: 'from-emerald-500/15 to-green-400/10',
-    borderHover: 'hover:border-emerald-400/60',
-    iconBg: 'bg-emerald-500',
-    accentColor: 'text-emerald-600 dark:text-emerald-400',
-    progressColor: 'bg-emerald-500',
-  },
-  {
-    to: '/grammaire',
-    icon: AlignLeft,
-    title: 'Grammaire',
-    titleJP: '文法',
-    desc: 'Particules, verbes, adjectifs',
-    gradient: 'from-violet-500/15 to-purple-400/10',
-    borderHover: 'hover:border-violet-400/60',
-    iconBg: 'bg-violet-500',
-    accentColor: 'text-violet-600 dark:text-violet-400',
-    progressColor: 'bg-violet-500',
-  },
-  {
-    to: '/flashcards',
-    icon: Zap,
-    title: 'Flashcards',
-    titleJP: '復習',
-    desc: 'Répétition espacée SM-2',
-    gradient: 'from-primary/15 to-rose-600/10',
-    borderHover: 'hover:border-primary/60',
-    iconBg: 'bg-primary',
-    accentColor: 'text-primary',
-    progressColor: 'bg-primary',
-    isFlashcard: true,
-  },
-]
-
-type ModuleDef = typeof MODULES[0]
-interface ModuleCardProps {
-  mod: ModuleDef
-  stat: { done: number | null; total: number | null }
-  badge?: string
-}
-
-function ModuleCard3D({ mod, stat, badge }: ModuleCardProps) {
-  const { ref, onMouseMove, onMouseLeave, onMouseEnter } = useTilt(14)
-  const Icon = mod.icon
-  return (
-    <div
-      ref={ref}
-      onMouseMove={onMouseMove}
-      onMouseLeave={onMouseLeave}
-      onMouseEnter={onMouseEnter}
-      style={{ transformStyle: 'preserve-3d' }}
-    >
-      <Link
-        to={mod.to}
-        className={`group relative overflow-hidden bg-card border border-border rounded-2xl p-5 block hover:shadow-2xl transition-shadow duration-200 ${mod.borderHover}`}
-      >
-        <div className="tilt-shine rounded-2xl" />
-        <div className={`absolute inset-0 bg-gradient-to-br ${mod.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
-
-        <div className="relative z-10" style={{ transform: 'translateZ(18px)', transformStyle: 'preserve-3d' }}>
-          <div className="flex items-start justify-between mb-4">
-            <div
-              className={`p-2.5 rounded-lg ${mod.iconBg} text-white shadow-md shadow-black/10`}
-              style={{ transform: 'translateZ(8px)' }}
-            >
-              <Icon size={17} />
-            </div>
-            <div className="flex items-center gap-1.5">
-              {badge && (
-                <span className="text-xs bg-primary text-primary-foreground px-2 py-0.5 rounded-full font-bold animate-pulse">
-                  {badge}
-                </span>
-              )}
-              {stat.done !== null && stat.total !== null && (
-                <span className="text-xs font-medium text-muted-foreground">{stat.done}/{stat.total}</span>
-              )}
-            </div>
-          </div>
-
-          <div className="mb-1 flex items-baseline gap-2">
-            <h3 className="font-bold text-sm">{mod.title}</h3>
-            <span className={`font-jp-serif text-sm ${mod.accentColor}`}>{mod.titleJP}</span>
-          </div>
-          <p className="text-xs text-muted-foreground mb-3 leading-relaxed">{mod.desc}</p>
-
-          {stat.done !== null && stat.total !== null && (
-            <div className="h-1 bg-muted rounded-full overflow-hidden">
-              <div
-                className={`h-full ${mod.progressColor} rounded-full transition-all duration-500`}
-                style={{ width: `${(stat.done / stat.total) * 100}%` }}
-              />
-            </div>
-          )}
-        </div>
-      </Link>
-    </div>
-  )
-}
-
-// Kanji du jour — tourne chaque jour
 const KANJI_DU_JOUR = [
-  { char: '一', reading: 'ichi', meaning: 'un', romaji: 'ichi' },
-  { char: '日', reading: 'nichi / hi', meaning: 'jour / soleil', romaji: 'nichi' },
-  { char: '山', reading: 'yama', meaning: 'montagne', romaji: 'yama' },
-  { char: '川', reading: 'kawa', meaning: 'rivière', romaji: 'kawa' },
-  { char: '人', reading: 'hito', meaning: 'personne', romaji: 'hito' },
-  { char: '水', reading: 'mizu', meaning: 'eau', romaji: 'mizu' },
-  { char: '火', reading: 'hi', meaning: 'feu', romaji: 'hi' },
-  { char: '月', reading: 'tsuki', meaning: 'lune / mois', romaji: 'tsuki' },
-  { char: '木', reading: 'ki', meaning: 'arbre', romaji: 'ki' },
-  { char: '金', reading: 'kane', meaning: 'or / argent', romaji: 'kane' },
-  { char: '土', reading: 'tsuchi', meaning: 'terre / sol', romaji: 'tsuchi' },
-  { char: '大', reading: 'ōki', meaning: 'grand', romaji: 'ōki' },
-  { char: '小', reading: 'chiisa', meaning: 'petit', romaji: 'chiisa' },
-  { char: '本', reading: 'hon', meaning: 'livre / origine', romaji: 'hon' },
+  { char: '一', reading: 'ichi / hitotsu', meaning: 'un' },
+  { char: '日', reading: 'nichi / hi',     meaning: 'jour, soleil' },
+  { char: '山', reading: 'san / yama',     meaning: 'montagne' },
+  { char: '川', reading: 'sen / kawa',     meaning: 'rivière' },
+  { char: '人', reading: 'jin / hito',     meaning: 'personne' },
+  { char: '水', reading: 'sui / mizu',     meaning: 'eau' },
+  { char: '火', reading: 'ka / hi',        meaning: 'feu' },
+  { char: '月', reading: 'getsu / tsuki',  meaning: 'lune, mois' },
+  { char: '木', reading: 'moku / ki',      meaning: 'arbre' },
+  { char: '金', reading: 'kin / kane',     meaning: 'or, argent' },
+  { char: '土', reading: 'do / tsuchi',    meaning: 'terre, sol' },
+  { char: '大', reading: 'dai / ōki',      meaning: 'grand' },
+  { char: '小', reading: 'shō / chiisa',   meaning: 'petit' },
+  { char: '本', reading: 'hon',            meaning: 'livre, origine' },
 ]
 
-function getGreeting(): { jp: string; fr: string } {
+function getGreeting() {
   const h = new Date().getHours()
   if (h >= 5 && h < 12)  return { jp: 'おはようございます', fr: 'Bonjour' }
   if (h >= 12 && h < 18) return { jp: 'こんにちは', fr: 'Bonne après-midi' }
   return { jp: 'こんばんは', fr: 'Bonsoir' }
 }
 
+// ── Barre de progression mini ────────────────────────────────────
+function MiniBar({ pct, color }: { pct: number; color: string }) {
+  return (
+    <div className="h-1.5 bg-muted rounded-full overflow-hidden">
+      <div className={`h-full rounded-full transition-all duration-700 ${color}`} style={{ width: `${pct}%` }} />
+    </div>
+  )
+}
+
 export function HomePage() {
   const { progress, getTodayDueCount } = useProgressContext()
   const dueCount = getTodayDueCount()
+  // Première leçon du parcours pas encore validée (undefined = unité terminée)
+  const nextLesson = HIRAGANA_UNIT.lessons.find(l => (progress.parcours[l.id]?.best ?? 0) < PASS_PERCENT)
+  const lessonsDone = HIRAGANA_UNIT.lessons.filter(l => (progress.parcours[l.id]?.best ?? 0) >= PASS_PERCENT).length
 
   const hiraganaBase = ALL_HIRAGANA.slice(0, 46)
-  const totalVocab = ALL_THEMES.reduce((sum, t) => sum + t.items.length, 0)
-  const seenVocab = ALL_THEMES.reduce((sum, t) => sum + t.items.filter(i => !!progress.vocabulary[i.id]?.seen).length, 0)
+  const totalVocab = ALL_THEMES.reduce((s, t) => s + t.items.length, 0)
+  const seenVocab  = ALL_THEMES.reduce((s, t) => s + t.items.filter(i => !!progress.vocabulary[i.id]?.seen).length, 0)
 
-  const stats = [
-    { done: progress.hiragana.mastered.length,     total: hiraganaBase.length },
-    { done: progress.katakana.mastered.length,     total: ALL_KATAKANA.length },
-    { done: Object.keys(progress.kanji).length,    total: KANJI_N5.length },
-    { done: seenVocab,                             total: totalVocab },
-    { done: Object.keys(progress.grammar).length,  total: GRAMMAR_POINTS.length },
-    { done: null,                                  total: null },
-  ]
+  const hiraStats = { done: progress.hiragana.mastered.length, total: hiraganaBase.length }
+  const kataStats = { done: progress.katakana.mastered.length, total: ALL_KATAKANA.length }
+  const hiraPct   = hiraStats.total > 0 ? Math.round((hiraStats.done / hiraStats.total) * 100) : 0
+  const kataPct   = kataStats.total > 0 ? Math.round((kataStats.done / kataStats.total) * 100) : 0
+  const kanjiPct  = KANJI_N5.length > 0 ? Math.round((Object.keys(progress.kanji).length / KANJI_N5.length) * 100) : 0
+  const vocabPct  = totalVocab > 0 ? Math.round((seenVocab / totalVocab) * 100) : 0
 
-  const totalDone  = stats.slice(0, 5).reduce((s, x) => s + (x.done ?? 0), 0)
-  const totalItems = stats.slice(0, 5).reduce((s, x) => s + (x.total ?? 0), 0)
-  const overallPct = totalItems > 0 ? Math.round((totalDone / totalItems) * 100) : 0
+  const overallPct = Math.round((hiraPct + kataPct + kanjiPct + vocabPct) / 4)
 
+  const isNew = overallPct === 0
   const greeting = getGreeting()
-  const dayIndex = Math.floor(Date.now() / 86400000) % KANJI_DU_JOUR.length
-  const kanji = KANJI_DU_JOUR[dayIndex]
-
-  const heroRef = useRef<HTMLDivElement>(null)
-  const heroKanjiRef = useRef<HTMLDivElement>(null)
-  const heroBlobRef = useRef<HTMLDivElement>(null)
-
-  const onHeroMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const el = heroRef.current
-    if (!el) return
-    const rect = el.getBoundingClientRect()
-    const x = (e.clientX - rect.left) / rect.width - 0.5
-    const y = (e.clientY - rect.top) / rect.height - 0.5
-    if (heroKanjiRef.current) heroKanjiRef.current.style.transform = `translate(${x * 35}px, ${y * 22}px) scale(1.06) rotate(${x * 4}deg)`
-    if (heroBlobRef.current) heroBlobRef.current.style.transform = `translate(${x * -20}px, ${y * -14}px) translate(-50%, 50%)`
-  }
-
-  const onHeroMouseLeave = () => {
-    if (heroKanjiRef.current) {
-      heroKanjiRef.current.style.transition = 'transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1)'
-      heroKanjiRef.current.style.transform = 'translate(0, 0) scale(1) rotate(0deg)'
-      setTimeout(() => { if (heroKanjiRef.current) heroKanjiRef.current.style.transition = '' }, 900)
-    }
-    if (heroBlobRef.current) {
-      heroBlobRef.current.style.transition = 'transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1)'
-      heroBlobRef.current.style.transform = 'translate(-50%, 50%)'
-      setTimeout(() => { if (heroBlobRef.current) heroBlobRef.current.style.transition = '' }, 900)
-    }
-  }
+  const dayIdx  = Math.floor(Date.now() / 86400000)
+  const phrase  = PHRASES[dayIdx % PHRASES.length]
+  const kanji   = KANJI_DU_JOUR[dayIdx % KANJI_DU_JOUR.length]
 
   return (
-    <div className="space-y-10">
+    <div>
 
-      {/* ── HERO ── */}
-      <div
-        ref={heroRef}
-        onMouseMove={onHeroMouseMove}
-        onMouseLeave={onHeroMouseLeave}
-        className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary via-primary/90 to-rose-800 p-8 md:p-10 text-white shadow-2xl cursor-default"
-        style={{ transformStyle: 'preserve-3d' }}
-      >
-        {/* Photo Japan en fond */}
+      {/* ── HERO ─────────────────────────────────────────────────── */}
+      <section className="relative -mx-4 -mt-4 md:-mx-6 md:-mt-6 overflow-hidden mb-8" style={{ minHeight: '42dvh' }}>
         <img
           src="/images/hero-tokyo.jpg"
-          alt=""
-          className="absolute inset-0 w-full h-full object-cover opacity-25 mix-blend-luminosity"
+          alt="Tokyo"
+          className="absolute inset-0 w-full h-full object-cover"
           loading="eager"
           decoding="async"
-          aria-hidden
         />
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div ref={heroKanjiRef} className="absolute -right-4 -top-4 font-jp-serif font-bold text-[140px] leading-none opacity-[0.12] select-none" style={{ willChange: 'transform', transition: 'transform 0.1s ease-out' }}>語</div>
-          <div ref={heroBlobRef} className="absolute bottom-0 left-0 w-56 h-56 bg-white/5 rounded-full -translate-x-1/2 translate-y-1/2" style={{ willChange: 'transform', transition: 'transform 0.1s ease-out' }} />
-        </div>
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(170deg, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.72) 100%)' }} />
 
-        <div className="relative z-10">
+        {/* Watermarks kanji */}
+        <span className="absolute right-4 top-4 font-jp-serif text-[110px] leading-none text-white/6 select-none pointer-events-none" aria-hidden>語</span>
+        <span className="absolute left-3 bottom-20 font-jp-serif text-[52px] leading-none text-white/6 select-none pointer-events-none" aria-hidden>日</span>
+
+        <div className="relative z-10 flex flex-col justify-end h-full px-5 md:px-7 pb-7 pt-16" style={{ minHeight: '42dvh' }}>
           {/* Greeting */}
-          <p className="font-jp text-sm text-white/60 mb-1 tracking-wider">{greeting.jp}</p>
-          <div className="flex items-center gap-3 mb-5">
-            <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
-              {greeting.fr} — 日本語
-            </h1>
+          <div className="flex items-center gap-2 mb-2">
+            <span className="h-px w-7 bg-white/35" />
+            <p className="font-jp text-white/70 text-[11px] tracking-[0.28em] uppercase">{greeting.jp}</p>
+          </div>
+          <h1 className="font-display text-[3.25rem] font-bold text-white leading-[0.95] tracking-[-0.02em] mb-3">
+            {greeting.fr}.
+          </h1>
+          <p className="text-white/60 text-sm leading-snug mb-5 max-w-[22rem]">
+            {isNew
+              ? 'Commence par les hiragana — la fondation de tout le japonais.'
+              : overallPct < 40
+              ? 'Tu construis de bonnes bases. Chaque session compte.'
+              : overallPct < 75
+              ? 'Tu progresses bien. Continue sur ta lancée.'
+              : 'Tu maîtrises déjà beaucoup. Les flashcards vont consolider ça.'}
+          </p>
+
+          {/* Ligne stats + CTA */}
+          <div className="flex items-center gap-2.5 flex-wrap">
             {progress.streak > 0 && (
-              <span className="flex items-center gap-1.5 bg-white/20 backdrop-blur-sm rounded-full px-3 py-1 text-sm font-semibold">
-                <Flame size={13} className="text-amber-300" />
-                {progress.streak}j
+              <span className="flex items-center gap-1.5 bg-white/12 backdrop-blur-sm border border-white/15 rounded-full px-3 py-1.5 text-xs font-semibold text-white">
+                <Flame size={12} className="text-amber-300" />
+                {progress.streak} j de suite
               </span>
             )}
-          </div>
-
-          {/* Progress bar */}
-          <div className="flex items-center gap-4">
-            <div className="flex-1 max-w-xs">
-              <div className="flex justify-between text-xs text-white/60 mb-1.5">
-                <span>Progression globale</span>
-                <span>{overallPct}%</span>
-              </div>
-              <div className="h-1.5 bg-white/20 rounded-full overflow-hidden">
-                <div className="h-full bg-white rounded-full transition-all duration-700" style={{ width: `${overallPct}%` }} />
-              </div>
-            </div>
+            {!isNew && (
+              <span className="bg-white/10 backdrop-blur-sm border border-white/12 rounded-full px-3 py-1.5 text-xs font-medium text-white/80">
+                {overallPct} % du parcours
+              </span>
+            )}
             <Link
-              to="/progression"
-              className="flex items-center gap-1.5 text-xs font-medium bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg px-3 py-1.5 transition-colors shrink-0"
+              to="/session"
+              className="ml-auto flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold text-white transition-all hover:opacity-90 active:scale-95"
+              style={{ background: 'oklch(0.51 0.205 28)', boxShadow: '0 4px 20px oklch(0.51 0.205 28 / 0.55)' }}
             >
-              Détails <ArrowRight size={12} />
+              {isNew ? 'Commencer' : 'Continuer'} <ArrowRight size={14} />
             </Link>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* ── GALERIE ── */}
-      <div>
-        <h2 className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-4">Le Japon en images — 日本と車</h2>
-        <div className="flex gap-3 overflow-x-auto pb-2 -mx-1 px-1 snap-x snap-mandatory scrollbar-hide">
-          {GALLERY.map(img => <GalleryCard key={img.src} img={img} />)}
-        </div>
-      </div>
+      <div className="space-y-8">
 
-      {/* ── KANJI DU JOUR ── */}
-      <Link to="/kanji" className="group flex items-center gap-6 bg-card border border-border rounded-2xl p-5 hover:border-primary/40 hover:shadow-lg transition-all">
-        <div className="shrink-0 w-20 h-20 flex items-center justify-center bg-primary/5 rounded-xl border border-primary/15 group-hover:bg-primary/10 transition-colors">
-          <span className="font-jp-serif text-5xl font-bold text-primary leading-none">{kanji.char}</span>
-        </div>
-        <div className="flex-1 min-w-0">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1">Kanji du jour</p>
-          <p className="font-bold text-lg leading-tight">{kanji.meaning}</p>
-          <p className="text-sm text-muted-foreground mt-0.5">{kanji.reading}</p>
-        </div>
-        <ArrowRight size={16} className="text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0" />
-      </Link>
-
-      {/* ── MODULES ── */}
-      <div>
-        <h2 className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-4">Modules — モジュール</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {MODULES.map((mod, i) => {
-            const stat  = stats[i]
-            const badge = mod.isFlashcard && dueCount > 0 ? String(dueCount) : undefined
-            return (
-              <ModuleCard3D key={mod.to} mod={mod} stat={stat} badge={badge} />
-            )
-          })}
-        </div>
-      </div>
-
-      {/* ── GUIDE ── */}
-      <div className="bg-card/90 backdrop-blur-sm border border-primary/20 rounded-2xl p-6 shadow-sm">
-        <div className="flex items-center gap-2 mb-4">
-          <span className="font-jp-serif text-xl text-primary">道</span>
-          <h3 className="font-bold text-sm">Par où commencer ?</h3>
-        </div>
-        <ol className="text-sm text-muted-foreground space-y-2.5 list-none">
-          {[
-            { step: '1', text: 'Commence par les', bold: 'Hiragana', after: '— la base de tout le japonais', to: '/hiragana' },
-            { step: '2', text: 'Apprends aussi les', bold: 'Katakana', after: 'pour lire les mots étrangers', to: '/katakana' },
-            { step: '3', text: 'Explore les', bold: 'Salutations', after: 'dans Vocabulaire', to: '/vocabulaire' },
-            { step: '4', text: 'Découvre les particules', bold: 'は が を', after: 'dans Grammaire', to: '/grammaire' },
-            { step: '5', text: 'Révise chaque jour avec les', bold: 'Flashcards', to: '/flashcards' },
-          ].map(item => (
-            <li key={item.step} className="flex items-start gap-3">
-              <span className="shrink-0 w-5 h-5 rounded-full bg-primary/12 text-primary text-[10px] font-bold flex items-center justify-center mt-0.5">
-                {item.step}
-              </span>
-              <span>
-                {item.text}{' '}
-                <Link to={item.to} className="font-semibold text-foreground hover:text-primary transition-colors">
-                  {item.bold}
-                </Link>
-                {item.after ? ` ${item.after}` : ''}
-              </span>
-            </li>
-          ))}
-        </ol>
-      </div>
-
-      {/* ── PROGRESSION LINK ── */}
-      <Link
-        to="/progression"
-        className="flex items-center justify-between bg-card border border-border rounded-2xl p-5 hover:border-primary/40 hover:shadow-lg transition-all group"
-      >
-        <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-lg bg-blue-500 text-white shadow-md shadow-black/10">
-            <BarChart2 size={17} />
+        {/* ── SESSION DU JOUR ─────────────────────────────────────── */}
+        <Link
+          to="/session"
+          className="group relative flex items-center gap-4 overflow-hidden rounded-2xl p-5 border border-primary/25 bg-primary/[0.06] hover:bg-primary/[0.1] transition-colors"
+        >
+          <span className="absolute -right-3 -top-5 font-jp-serif font-black text-[120px] leading-none text-primary/[0.07] select-none pointer-events-none" aria-hidden>今</span>
+          <div className="relative z-10 w-12 h-12 rounded-xl bg-primary flex items-center justify-center shrink-0 shadow-lg shadow-primary/30">
+            <Sparkles size={22} className="text-primary-foreground" />
           </div>
-          <div>
-            <p className="font-bold text-sm">Ma progression</p>
-            <p className="text-xs text-muted-foreground">
-              Série {progress.streak} j · {Object.values(progress.flashcards).filter(c => c.repetitions >= 3).length} cartes maîtrisées
+          <div className="relative z-10 flex-1 min-w-0">
+            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-primary/70 mb-0.5">Ton rendez-vous quotidien</p>
+            <p className="text-lg font-bold text-foreground leading-tight">Session du jour</p>
+            <p className="text-sm text-muted-foreground mt-0.5">
+              {dueCount > 0
+                ? `${dueCount} révision${dueCount > 1 ? 's' : ''} + nouveautés, en quelques minutes`
+                : 'Découvre de nouvelles cartes et entretiens ta série'}
             </p>
           </div>
+          {progress.streak > 0 && (
+            <span className="relative z-10 hidden sm:flex items-center gap-1.5 bg-background/70 border border-border rounded-full px-3 py-1.5 text-xs font-semibold text-foreground shrink-0">
+              <Flame size={13} className="text-amber-500" />
+              {progress.streak} j
+            </span>
+          )}
+          <ArrowRight size={18} className="relative z-10 text-primary group-hover:translate-x-1 transition-transform shrink-0" />
+        </Link>
+
+        {/* ── PARCOURS ────────────────────────────────────────────── */}
+        <Link
+          to="/parcours"
+          className="group relative flex items-center gap-4 overflow-hidden rounded-2xl p-5 border border-border bg-card hover:bg-muted/50 transition-colors -mt-4"
+        >
+          <span className="absolute -right-3 -top-5 font-jp-serif font-black text-[120px] leading-none text-foreground/[0.05] select-none pointer-events-none" aria-hidden>道</span>
+          <div className="relative z-10 w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+            <RouteIcon size={22} className="text-primary" />
+          </div>
+          <div className="relative z-10 flex-1 min-w-0">
+            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground mb-0.5">Unité 1 · Hiragana</p>
+            <p className="text-lg font-bold text-foreground leading-tight">Parcours</p>
+            <p className="text-sm text-muted-foreground mt-0.5">
+              {nextLesson
+                ? `${lessonsDone === 0 ? 'Première leçon' : 'Prochaine leçon'} : ${nextLesson.title}`
+                : 'Unité terminée, tous les hiragana sont validés'}
+            </p>
+          </div>
+          <span className="relative z-10 hidden sm:inline text-xs font-semibold tabular-nums text-muted-foreground shrink-0">
+            {lessonsDone} / {HIRAGANA_UNIT.lessons.length}
+          </span>
+          <ArrowRight size={18} className="relative z-10 text-primary group-hover:translate-x-1 transition-transform shrink-0" />
+        </Link>
+
+        {/* ── PHRASE DU JOUR ──────────────────────────────────────── */}
+        <div className="rounded-2xl border border-border bg-card overflow-hidden">
+          <div className="px-5 pt-4 pb-1 flex items-center justify-between">
+            <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">Phrase du jour</span>
+            <span className="text-[10px] text-muted-foreground">{new Date().toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })}</span>
+          </div>
+          <div className="px-5 pb-5 pt-3 space-y-2">
+            <p className="font-jp text-2xl leading-snug text-foreground">{phrase.jp}</p>
+            <p className="text-xs font-mono text-muted-foreground">{phrase.romaji}</p>
+            <p className="text-sm font-medium text-foreground/75 pt-1 border-t border-border">{phrase.fr}</p>
+          </div>
         </div>
-        <ArrowRight size={15} className="text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
-      </Link>
+
+        {/* ── 4 GRANDES ENTRÉES ───────────────────────────────────── */}
+        <section className="space-y-3">
+          <h2 className="text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground">Explorer</h2>
+
+          {/* Kana — pleine largeur */}
+          <Link
+            to="/hiragana"
+            className="group relative flex flex-col justify-end overflow-hidden rounded-2xl p-5"
+            style={{ minHeight: '140px', background: 'linear-gradient(135deg, oklch(0.38 0.17 25 / 0.9), oklch(0.28 0.14 25 / 0.95))' }}
+          >
+            <span className="absolute right-3 top-0 font-jp-serif font-black text-[130px] leading-none text-white/10 select-none pointer-events-none transition-transform duration-500 group-hover:scale-105" aria-hidden>あ</span>
+            <span className="absolute right-20 top-4 font-jp-serif font-black text-[70px] leading-none text-white/6 select-none pointer-events-none" aria-hidden>ア</span>
+            <div className="relative z-10">
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/50 mb-1">Écriture · 書き方</p>
+              <div className="flex items-end justify-between">
+                <div>
+                  <p className="text-xl font-bold text-white leading-tight">Hiragana & Katakana</p>
+                  <p className="text-white/60 text-sm mt-0.5">92 kana · la fondation du japonais</p>
+                </div>
+                <ArrowRight size={18} className="text-white/50 group-hover:text-white group-hover:translate-x-1 transition-all shrink-0 mb-0.5" />
+              </div>
+              {(hiraPct > 0 || kataPct > 0) && (
+                <div className="mt-3 h-1 rounded-full overflow-hidden bg-white/15">
+                  <div className="h-full bg-white/60 rounded-full transition-all duration-700" style={{ width: `${Math.round((hiraPct + kataPct) / 2)}%` }} />
+                </div>
+              )}
+            </div>
+          </Link>
+
+          {/* Kanji + Vocab — 2 demi-colonnes */}
+          <div className="grid grid-cols-2 gap-3">
+            <Link
+              to="/kanji"
+              className="group relative flex flex-col justify-end overflow-hidden rounded-2xl p-4"
+              style={{ minHeight: '130px', background: 'linear-gradient(135deg, oklch(0.42 0.15 65 / 0.85), oklch(0.32 0.12 65 / 0.92))' }}
+            >
+              <span className="absolute right-1 top-0 font-jp-serif font-black text-[100px] leading-none text-white/10 select-none pointer-events-none" aria-hidden>漢</span>
+              <div className="relative z-10">
+                <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-white/45 mb-1">N5 · N4</p>
+                <p className="text-base font-bold text-white leading-tight">Kanji</p>
+                <p className="text-white/55 text-xs mt-0.5">103 caractères</p>
+                {kanjiPct > 0 && (
+                  <div className="mt-2 h-1 rounded-full overflow-hidden bg-white/15">
+                    <div className="h-full bg-white/55 rounded-full" style={{ width: `${kanjiPct}%` }} />
+                  </div>
+                )}
+              </div>
+            </Link>
+
+            <Link
+              to="/vocabulaire"
+              className="group relative flex flex-col justify-end overflow-hidden rounded-2xl p-4"
+              style={{ minHeight: '130px', background: 'linear-gradient(135deg, oklch(0.42 0.14 180 / 0.85), oklch(0.30 0.12 180 / 0.92))' }}
+            >
+              <span className="absolute right-1 top-0 font-jp-serif font-black text-[100px] leading-none text-white/10 select-none pointer-events-none" aria-hidden>語</span>
+              <div className="relative z-10">
+                <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-white/45 mb-1">8 thèmes</p>
+                <p className="text-base font-bold text-white leading-tight">Vocabulaire</p>
+                <p className="text-white/55 text-xs mt-0.5">{totalVocab} mots</p>
+                {vocabPct > 0 && (
+                  <div className="mt-2 h-1 rounded-full overflow-hidden bg-white/15">
+                    <div className="h-full bg-white/55 rounded-full" style={{ width: `${vocabPct}%` }} />
+                  </div>
+                )}
+              </div>
+            </Link>
+          </div>
+
+          {/* Jeux — pleine largeur */}
+          <Link
+            to="/jeux"
+            className="group relative flex items-center gap-4 overflow-hidden rounded-2xl p-5"
+            style={{ background: 'linear-gradient(135deg, oklch(0.35 0.13 160 / 0.85), oklch(0.28 0.11 160 / 0.92))' }}
+          >
+            <span className="absolute right-3 top-1 font-jp-serif font-black text-[110px] leading-none text-white/8 select-none pointer-events-none" aria-hidden>遊</span>
+            <div className="relative z-10 w-12 h-12 rounded-xl bg-white/12 flex items-center justify-center shrink-0">
+              <Gamepad2 size={22} className="text-white" />
+            </div>
+            <div className="relative z-10 flex-1">
+              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-white/45 mb-0.5">Pratique ludique</p>
+              <p className="text-base font-bold text-white">Jeux</p>
+              <p className="text-white/55 text-xs">Mémoire · Blitz · Pluie de kana · Ordre des mots</p>
+            </div>
+            <ArrowRight size={16} className="text-white/40 group-hover:text-white group-hover:translate-x-1 transition-all shrink-0" />
+          </Link>
+
+          {/* Production — pleine largeur */}
+          <Link
+            to="/production"
+            className="group relative flex items-center gap-4 overflow-hidden rounded-2xl p-5"
+            style={{ background: 'linear-gradient(135deg, oklch(0.36 0.13 285 / 0.88), oklch(0.28 0.11 285 / 0.94))' }}
+          >
+            <span className="absolute right-3 top-1 font-jp-serif font-black text-[110px] leading-none text-white/8 select-none pointer-events-none" aria-hidden>産</span>
+            <div className="relative z-10 w-12 h-12 rounded-xl bg-white/12 flex items-center justify-center shrink-0">
+              <PenTool size={22} className="text-white" />
+            </div>
+            <div className="relative z-10 flex-1">
+              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-white/45 mb-0.5">Du français au japonais</p>
+              <p className="text-base font-bold text-white">Production</p>
+              <p className="text-white/55 text-xs">Écris la lecture · Tape en kana · Compose une phrase</p>
+            </div>
+            <ArrowRight size={16} className="text-white/40 group-hover:text-white group-hover:translate-x-1 transition-all shrink-0" />
+          </Link>
+        </section>
+
+        {/* ── KANJI DU JOUR ───────────────────────────────────────── */}
+        <Link
+          to="/kanji"
+          className="group flex items-center gap-5 bg-card border border-border rounded-2xl p-5 hover:border-primary/40 transition-all"
+        >
+          <div className="shrink-0 w-16 h-16 flex items-center justify-center bg-primary/6 border border-primary/15 rounded-xl group-hover:bg-primary/10 transition-colors">
+            <span className="font-jp-serif text-4xl font-bold text-primary leading-none">{kanji.char}</span>
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider mb-1">Kanji du jour</p>
+            <p className="font-bold text-lg leading-tight">{kanji.meaning}</p>
+            <p className="text-sm text-muted-foreground mt-0.5 font-jp">{kanji.reading}</p>
+          </div>
+          <ArrowRight size={14} className="text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0" />
+        </Link>
+
+        {/* ── MINI PROGRESSION ────────────────────────────────────── */}
+        <section className="bg-card border border-border rounded-2xl p-5 space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-sm font-bold text-foreground">Ma progression</h2>
+            <Link to="/progression" className="flex items-center gap-1 text-xs text-muted-foreground hover:text-primary transition-colors">
+              <BarChart2 size={12} />
+              Tout voir
+            </Link>
+          </div>
+
+          <div className="space-y-3">
+            {[
+              { label: 'Hiragana', kana: 'ひ', pct: hiraPct, done: hiraStats.done, total: hiraStats.total, color: 'bg-primary' },
+              { label: 'Katakana', kana: 'カ', pct: kataPct, done: kataStats.done, total: kataStats.total, color: 'bg-amber-500' },
+              { label: 'Kanji N5', kana: '漢', pct: kanjiPct, done: Object.keys(progress.kanji).length, total: KANJI_N5.length, color: 'bg-teal-500' },
+            ].map(row => (
+              <div key={row.label} className="space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="font-jp text-xs text-muted-foreground w-4 text-center">{row.kana}</span>
+                    <span className="text-xs font-medium text-foreground">{row.label}</span>
+                  </div>
+                  <span className="text-[11px] tabular-nums text-muted-foreground">{row.done}/{row.total}</span>
+                </div>
+                <MiniBar pct={row.pct} color={row.color} />
+              </div>
+            ))}
+          </div>
+
+          {dueCount > 0 && (
+            <Link
+              to="/flashcards"
+              className="flex items-center justify-between w-full mt-1 px-4 py-3 rounded-xl bg-primary/8 border border-primary/20 hover:bg-primary/12 transition-colors"
+            >
+              <div className="flex items-center gap-2.5">
+                <BookOpen size={14} className="text-primary" />
+                <span className="text-sm font-medium text-foreground">{dueCount} carte{dueCount > 1 ? 's' : ''} à réviser</span>
+              </div>
+              <ArrowRight size={13} className="text-primary" />
+            </Link>
+          )}
+        </section>
+
+      </div>
     </div>
   )
 }

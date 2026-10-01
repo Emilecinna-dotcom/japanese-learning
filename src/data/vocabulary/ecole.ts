@@ -1,0 +1,31 @@
+import type { VocabTheme } from '@/types/vocabulary'
+
+export const ECOLE_THEME: VocabTheme = {
+  id: 'ecole',
+  labelFR: "L'école",
+  icon: 'graduation-cap',
+  description: "Éducation, classes et vie scolaire",
+  colorClass: 'text-violet-500',
+  items: [
+    { id: 'ec1',  japanese: '学校', kana: 'がっこう', romaji: 'gakkou', frenchTranslation: 'école', category: 'établissements', level: 'débutant', tags: ['école', 'essentiel'] },
+    { id: 'ec2',  japanese: '大学', kana: 'だいがく', romaji: 'daigaku', frenchTranslation: 'université', category: 'établissements', level: 'débutant', tags: ['école'] },
+    { id: 'ec3',  japanese: '教室', kana: 'きょうしつ', romaji: 'kyoushitsu', frenchTranslation: 'salle de classe', category: 'lieux', level: 'débutant', tags: ['école'] },
+    { id: 'ec4',  japanese: '先生', kana: 'せんせい', romaji: 'sensei', frenchTranslation: 'professeur, enseignant', category: 'personnes', level: 'débutant', tags: ['école', 'personnes', 'essentiel'] },
+    { id: 'ec5',  japanese: '生徒', kana: 'せいと', romaji: 'seito', frenchTranslation: 'élève', category: 'personnes', level: 'débutant', tags: ['école', 'personnes'] },
+    { id: 'ec6',  japanese: '学生', kana: 'がくせい', romaji: 'gakusei', frenchTranslation: 'étudiant(e)', category: 'personnes', level: 'débutant', tags: ['école', 'personnes'] },
+    { id: 'ec7',  japanese: '授業', kana: 'じゅぎょう', romaji: 'jugyou', frenchTranslation: 'cours, leçon', category: 'cours', level: 'débutant', tags: ['école'] },
+    { id: 'ec8',  japanese: '宿題', kana: 'しゅくだい', romaji: 'shukudai', frenchTranslation: 'devoirs', category: 'cours', level: 'débutant', tags: ['école', 'essentiel'] },
+    { id: 'ec9',  japanese: '試験', kana: 'しけん', romaji: 'shiken', frenchTranslation: 'examen, test', category: 'évaluation', level: 'débutant', tags: ['école'] },
+    { id: 'ec10', japanese: '成績', kana: 'せいせき', romaji: 'seiseki', frenchTranslation: 'résultats scolaires, notes', category: 'évaluation', level: 'intermédiaire', tags: ['école'] },
+    { id: 'ec11', japanese: '教科書', kana: 'きょうかしょ', romaji: 'kyoukasho', frenchTranslation: 'manuel scolaire', category: 'matériel', level: 'débutant', tags: ['école'] },
+    { id: 'ec12', japanese: 'ノート', kana: 'ノート', romaji: 'nooto', frenchTranslation: 'cahier', category: 'matériel', level: 'débutant', tags: ['école', 'katakana'] },
+    { id: 'ec13', japanese: '黒板', kana: 'こくばん', romaji: 'kokuban', frenchTranslation: 'tableau noir', category: 'matériel', level: 'débutant', tags: ['école'] },
+    { id: 'ec14', japanese: '部活', kana: 'ぶかつ', romaji: 'bukatsu', frenchTranslation: 'club scolaire', category: 'activités', level: 'intermédiaire', tags: ['école', 'culture'] },
+    { id: 'ec15', japanese: '入学', kana: 'にゅうがく', romaji: 'nyuugaku', frenchTranslation: 'entrée à l\'école, inscription', category: 'événements', level: 'intermédiaire', tags: ['école'] },
+    { id: 'ec16', japanese: '卒業', kana: 'そつぎょう', romaji: 'sotsugyou', frenchTranslation: 'diplôme, fin d\'études', category: 'événements', level: 'intermédiaire', tags: ['école'] },
+    { id: 'ec17', japanese: '奨学金', kana: 'しょうがくきん', romaji: 'shougakukin', frenchTranslation: 'bourse scolaire', category: 'finance', level: 'avancé', tags: ['école'] },
+    { id: 'ec18', japanese: '図書館', kana: 'としょかん', romaji: 'toshokan', frenchTranslation: 'bibliothèque', category: 'lieux', level: 'débutant', tags: ['école', 'ville'] },
+    { id: 'ec19', japanese: '運動場', kana: 'うんどうじょう', romaji: 'undoujou', frenchTranslation: 'terrain de sport, cour', category: 'lieux', level: 'intermédiaire', tags: ['école', 'sport'] },
+    { id: 'ec20', japanese: '文房具', kana: 'ぶんぼうぐ', romaji: 'bunbougu', frenchTranslation: 'fournitures scolaires', category: 'matériel', level: 'intermédiaire', tags: ['école'] },
+  ],
+}

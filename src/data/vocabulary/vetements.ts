@@ -1,0 +1,32 @@
+import type { VocabTheme } from '@/types/vocabulary'
+
+export const VETEMENTS_THEME: VocabTheme = {
+  id: 'vetements',
+  labelFR: 'Vêtements',
+  icon: 'shirt',
+  description: 'Vêtements, tenues et accessoires',
+  colorClass: 'text-violet-500',
+  items: [
+    { id: 'vt1',  japanese: '服', kana: 'ふく', romaji: 'fuku', frenchTranslation: 'vêtements', category: 'général', level: 'débutant', tags: ['vêtements'] },
+    { id: 'vt2',  japanese: 'シャツ', kana: 'シャツ', romaji: 'shatsu', frenchTranslation: 'chemise, t-shirt', category: 'haut', level: 'débutant', tags: ['vêtements'] },
+    { id: 'vt3',  japanese: 'ズボン', kana: 'ズボン', romaji: 'zubon', frenchTranslation: 'pantalon', category: 'bas', level: 'débutant', tags: ['vêtements'] },
+    { id: 'vt4',  japanese: 'スカート', kana: 'スカート', romaji: 'sukaato', frenchTranslation: 'jupe', category: 'bas', level: 'débutant', tags: ['vêtements'] },
+    { id: 'vt5',  japanese: 'ジャケット', kana: 'ジャケット', romaji: 'jaketto', frenchTranslation: 'veste, jacket', category: 'haut', level: 'débutant', tags: ['vêtements'] },
+    { id: 'vt6',  japanese: 'コート', kana: 'コート', romaji: 'kooto', frenchTranslation: 'manteau', category: 'haut', level: 'débutant', tags: ['vêtements'] },
+    { id: 'vt7',  japanese: '靴', kana: 'くつ', romaji: 'kutsu', frenchTranslation: 'chaussures', category: 'chaussures', level: 'débutant', tags: ['vêtements'] },
+    { id: 'vt8',  japanese: '靴下', kana: 'くつした', romaji: 'kutsushita', frenchTranslation: 'chaussettes', category: 'chaussures', level: 'débutant', tags: ['vêtements'] },
+    { id: 'vt9',  japanese: '帽子', kana: 'ぼうし', romaji: 'boushi', frenchTranslation: 'chapeau, casquette', category: 'accessoire', level: 'débutant', tags: ['vêtements', 'accessoire'] },
+    { id: 'vt10', japanese: '手袋', kana: 'てぶくろ', romaji: 'tebukuro', frenchTranslation: 'gants', category: 'accessoire', level: 'débutant', tags: ['vêtements', 'accessoire'] },
+    { id: 'vt11', japanese: 'マフラー', kana: 'マフラー', romaji: 'mafuraa', frenchTranslation: 'écharpe', category: 'accessoire', level: 'débutant', tags: ['vêtements', 'accessoire'] },
+    { id: 'vt12', japanese: '眼鏡', kana: 'めがね', romaji: 'megane', frenchTranslation: 'lunettes', category: 'accessoire', level: 'débutant', tags: ['vêtements', 'accessoire'] },
+    { id: 'vt13', japanese: 'かばん', kana: 'かばん', romaji: 'kaban', frenchTranslation: 'sac, sacoche', category: 'accessoire', level: 'débutant', tags: ['vêtements', 'accessoire'] },
+    { id: 'vt14', japanese: 'セーター', kana: 'セーター', romaji: 'seetaa', frenchTranslation: 'pull, sweater', category: 'haut', level: 'débutant', tags: ['vêtements'] },
+    { id: 'vt15', japanese: 'ワンピース', kana: 'ワンピース', romaji: 'wanpiisu', frenchTranslation: 'robe', category: 'général', level: 'débutant', tags: ['vêtements'] },
+    { id: 'vt16', japanese: '下着', kana: 'したぎ', romaji: 'shitagi', frenchTranslation: 'sous-vêtements', category: 'général', level: 'débutant', tags: ['vêtements'] },
+    { id: 'vt17', japanese: '浴衣', kana: 'ゆかた', romaji: 'yukata', frenchTranslation: 'yukata (kimono d\'été)', category: 'traditionnel', level: 'intermédiaire', tags: ['vêtements', 'culture'] },
+    { id: 'vt18', japanese: '着物', kana: 'きもの', romaji: 'kimono', frenchTranslation: 'kimono (vêtement traditionnel)', category: 'traditionnel', level: 'intermédiaire', tags: ['vêtements', 'culture'] },
+    { id: 'vt19', japanese: '着る', kana: 'きる', romaji: 'kiru', frenchTranslation: 'mettre (vêtement haut)', category: 'verbe', level: 'débutant', tags: ['vêtements', 'verbe'] },
+    { id: 'vt20', japanese: '脱ぐ', kana: 'ぬぐ', romaji: 'nugu', frenchTranslation: 'enlever (vêtement)', category: 'verbe', level: 'débutant', tags: ['vêtements', 'verbe'] },
+    { id: 'vt21', japanese: '似合う', kana: 'にあう', romaji: 'niau', frenchTranslation: 'aller bien (vêtement)', category: 'verbe', level: 'intermédiaire', tags: ['vêtements', 'verbe'] },
+  ],
+}

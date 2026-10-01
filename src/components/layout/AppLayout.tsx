@@ -1,8 +1,10 @@
 import { Outlet } from 'react-router-dom'
 import { useState, memo, useRef, useEffect } from 'react'
-import { Menu, Moon, Sun, X } from 'lucide-react'
+import { Menu, Moon, Sun, X, Search } from 'lucide-react'
 import { Sidebar } from './Sidebar'
 import { BottomNav } from './BottomNav'
+import { SearchModal } from '@/components/SearchModal'
+import { WelcomeScreen } from '@/components/WelcomeScreen'
 import { NavLink } from 'react-router-dom'
 import { cn } from '@/lib/utils'
 import { useProgressContext } from '@/hooks/useProgress'
@@ -55,9 +57,9 @@ const FloatingKanaBackground = memo(function FloatingKanaBackground() {
 
   return (
     <div
-      className="fixed inset-0 overflow-hidden pointer-events-none z-0 select-none"
+      className="fixed inset-0 pointer-events-none z-0 select-none"
       aria-hidden
-      style={{ perspective: '650px', perspectiveOrigin: '50% 50%' }}
+      style={{ perspective: '650px', perspectiveOrigin: '50% 50%', overflow: 'hidden', clipPath: 'inset(0)' }}
     >
       <div
         ref={sceneRef}
@@ -124,18 +126,34 @@ function NavItemMobile({ to, label, onClick, end }: NavItemMobileProps) {
 }
 
 export function AppLayout() {
-  const { getTodayDueCount } = useProgressContext()
+  const { getTodayDueCount, getDueWritingCount } = useProgressContext()
   const dueCount = getTodayDueCount()
-  const [dark, setDark] = useState(() => document.documentElement.classList.contains('dark'))
+  const writingDue = getDueWritingCount()
+  const [dark, setDark] = useState(() => {
+    const saved = localStorage.getItem('theme')
+    return saved ? saved === 'dark' : document.documentElement.classList.contains('dark')
+  })
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); setSearchOpen(true) }
+      if (e.key === 'Escape') setSearchOpen(false)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
 
   const toggleDark = () => {
+    const next = !dark
     document.documentElement.classList.toggle('dark')
-    setDark(d => !d)
+    localStorage.setItem('theme', next ? 'dark' : 'light')
+    setDark(next)
   }
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen overflow-x-hidden">
       {/* Fond Japan — image très subtile */}
       <div className="fixed inset-0 z-0 pointer-events-none" aria-hidden>
         <img
@@ -150,7 +168,7 @@ export function AppLayout() {
       <FloatingKanaBackground />
 
       {/* Desktop sidebar */}
-      <Sidebar dueCount={dueCount} />
+      <Sidebar dueCount={dueCount} writingDue={writingDue} />
 
       {/* Mobile overlay */}
       {mobileOpen && (
@@ -162,10 +180,10 @@ export function AppLayout() {
 
       {/* Mobile drawer */}
       <div className={cn(
-        'fixed inset-y-0 left-0 z-50 w-72 bg-sidebar border-r border-sidebar-border transform transition-transform duration-300 ease-out lg:hidden',
+        'fixed inset-y-0 left-0 z-50 w-72 bg-sidebar border-r border-sidebar-border transform transition-transform duration-300 ease-out lg:hidden flex flex-col',
         mobileOpen ? 'translate-x-0' : '-translate-x-full'
       )}>
-        <div className="flex items-center justify-between p-4 border-b border-sidebar-border">
+        <div className="flex items-center justify-between p-4 border-b border-sidebar-border shrink-0">
           <NavLink to="/" className="flex items-center gap-3" onClick={() => setMobileOpen(false)}>
             <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/30">
               <span className="font-jp text-white text-base leading-none">日</span>
@@ -176,20 +194,84 @@ export function AppLayout() {
             <X size={18} />
           </button>
         </div>
-        <nav className="p-3 space-y-1">
-          {[
-            { to: '/', label: 'Accueil', end: true },
-            { to: '/hiragana', label: 'Hiragana' },
-            { to: '/katakana', label: 'Katakana' },
-            { to: '/kanji', label: 'Kanji N5' },
-            { to: '/telephone', label: 'Téléphone' },
-            { to: '/vocabulaire', label: 'Vocabulaire' },
-            { to: '/grammaire', label: 'Grammaire' },
-            { to: '/flashcards', label: 'Flashcards' },
-            { to: '/progression', label: 'Progression' },
-          ].map(item => (
-            <NavItemMobile key={item.to} to={item.to} label={item.label} end={item.end} onClick={() => setMobileOpen(false)} />
-          ))}
+        <nav className="p-3 space-y-4 overflow-y-auto flex-1 min-h-0">
+          <div className="space-y-1">
+            <NavItemMobile to="/" label="Accueil" end onClick={() => setMobileOpen(false)} />
+            <NavItemMobile to="/session" label="✦ Session du jour — 今日" onClick={() => setMobileOpen(false)} />
+            <NavItemMobile to="/parcours" label="道 Parcours — hiragana" onClick={() => setMobileOpen(false)} />
+          </div>
+
+          <div>
+            <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-sidebar-foreground/30 px-1 mb-1">Écriture</p>
+            {[
+              { to: '/hiragana', label: 'Hiragana' },
+              { to: '/katakana', label: 'Katakana' },
+              { to: '/ecriture', label: 'Écriture' },
+            ].map(item => (
+              <NavItemMobile key={item.to} to={item.to} label={item.label} onClick={() => setMobileOpen(false)} />
+            ))}
+          </div>
+
+          <div>
+            <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-sidebar-foreground/30 px-1 mb-1">Kanji</p>
+            <NavItemMobile to="/kanji" label="Kanji N5 · N4" onClick={() => setMobileOpen(false)} />
+          </div>
+
+          <div>
+            <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-sidebar-foreground/30 px-1 mb-1">Langue</p>
+            {[
+              { to: '/vocabulaire', label: 'Vocabulaire' },
+              { to: '/grammaire', label: 'Grammaire' },
+              { to: '/conjugaison', label: 'Conjugaison' },
+              { to: '/particules', label: 'Particules' },
+              { to: '/keigo', label: 'Keigo' },
+            ].map(item => (
+              <NavItemMobile key={item.to} to={item.to} label={item.label} onClick={() => setMobileOpen(false)} />
+            ))}
+          </div>
+
+          <div>
+            <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-sidebar-foreground/30 px-1 mb-1">Expressions</p>
+            {[
+              { to: '/phrases', label: 'Phrases' },
+              { to: '/compteurs', label: 'Compteurs' },
+              { to: '/chiffres', label: 'Chiffres' },
+              { to: '/onomatopees', label: 'Onomatopées' },
+              { to: '/telephone', label: 'Téléphone' },
+            ].map(item => (
+              <NavItemMobile key={item.to} to={item.to} label={item.label} onClick={() => setMobileOpen(false)} />
+            ))}
+          </div>
+
+          <div>
+            <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-sidebar-foreground/30 px-1 mb-1">Immersion</p>
+            {[
+              { to: '/ecoute', label: 'Écoute' },
+              { to: '/prononciation', label: 'Prononciation — 発音' },
+              { to: '/lecture', label: 'Lecture' },
+              { to: '/jlpt', label: 'JLPT' },
+            ].map(item => (
+              <NavItemMobile key={item.to} to={item.to} label={item.label} onClick={() => setMobileOpen(false)} />
+            ))}
+          </div>
+
+          <div>
+            <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-sidebar-foreground/30 px-1 mb-1">Jeux</p>
+            <NavItemMobile to="/jeux" label="Jeux — 遊び" onClick={() => setMobileOpen(false)} />
+          </div>
+
+          <div>
+            <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-sidebar-foreground/30 px-1 mb-1">Pratique</p>
+            {[
+              { to: '/flashcards', label: 'Flashcards' },
+              { to: '/production', label: 'Production — 産出' },
+              { to: '/mots', label: 'Mes mots — 単語帳' },
+              { to: '/exercices', label: 'Exercices' },
+              { to: '/progression', label: 'Progression' },
+            ].map(item => (
+              <NavItemMobile key={item.to} to={item.to} label={item.label} onClick={() => setMobileOpen(false)} />
+            ))}
+          </div>
         </nav>
       </div>
 
@@ -197,12 +279,25 @@ export function AppLayout() {
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top bar */}
         <header className="sticky top-0 z-30 flex items-center justify-between px-4 py-3 bg-background/80 backdrop-blur-md border-b border-border/60">
+          {/* Sur desktop : burger pour ouvrir le drawer (sidebar cachée) + recherche */}
           <button
-            className="lg:hidden p-2 rounded-xl hover:bg-muted transition-colors"
+            className="hidden lg:flex p-2 rounded-xl hover:bg-muted transition-colors"
             onClick={() => setMobileOpen(true)}
           >
             <Menu size={20} />
           </button>
+
+          {/* Search trigger — desktop uniquement */}
+          <button
+            onClick={() => setSearchOpen(true)}
+            className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-muted/60 hover:bg-muted text-muted-foreground hover:text-foreground text-sm transition-colors border border-border/40 lg:mx-0"
+            aria-label="Rechercher (⌘K)"
+          >
+            <Search size={14} />
+            <span className="text-xs">Rechercher…</span>
+            <kbd className="text-[10px] bg-background/80 border border-border px-1.5 py-0.5 rounded font-mono opacity-60">⌘K</kbd>
+          </button>
+
           <div className="flex-1 lg:flex-none" />
           <button
             onClick={toggleDark}
@@ -213,13 +308,16 @@ export function AppLayout() {
           </button>
         </header>
 
+        <SearchModal open={searchOpen} onClose={() => setSearchOpen(false)} />
+
         {/* Page content — padding bottom pour la bottom nav + safe area iOS */}
         <main className="flex-1 p-4 md:p-6 max-w-5xl w-full mx-auto" style={{ paddingBottom: 'calc(5rem + env(safe-area-inset-bottom))' }}>
           <Outlet />
         </main>
       </div>
 
-      <BottomNav />
+      <BottomNav onMenuOpen={() => setMobileOpen(true)} />
+      <WelcomeScreen />
     </div>
   )
 }

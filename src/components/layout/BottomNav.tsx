@@ -1,23 +1,36 @@
 import { NavLink } from 'react-router-dom'
-import { Home, Zap, Smartphone } from 'lucide-react'
+import { Home, Zap, LayoutGrid } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useProgressContext } from '@/hooks/useProgress'
 
+interface BottomNavProps {
+  onMenuOpen: () => void
+}
+
 const NAV_ITEMS = [
-  { to: '/',          label: 'Accueil',   icon: <Home size={20} />,       kana: null,   end: true },
-  { to: '/hiragana',  label: 'Hiragana',  icon: null,                      kana: 'あ',  end: false },
-  { to: '/kanji',     label: 'Kanji',     icon: null,                      kana: '漢',  end: false },
-  { to: '/telephone', label: 'Téléphone', icon: <Smartphone size={20} />,  kana: null,   end: false },
-  { to: '/flashcards',label: 'Révision',  icon: <Zap size={20} />,        kana: null,   end: false },
+  { to: '/hiragana',   label: 'Kana',     icon: null,              kana: 'あ',  end: false },
+  { to: '/',           label: 'Accueil',  icon: <Home size={20} />,kana: null,  end: true  },
+  { to: '/parcours',   label: 'Parcours', icon: null,              kana: '道',  end: false },
+  { to: '/kanji',      label: 'Kanji',    icon: null,              kana: '漢',  end: false },
+  { to: '/flashcards', label: 'Révision', icon: <Zap size={20} />, kana: null,  end: false },
 ]
 
-export function BottomNav() {
+export function BottomNav({ onMenuOpen }: BottomNavProps) {
   const { getTodayDueCount } = useProgressContext()
   const dueCount = getTodayDueCount()
 
   return (
     <nav className="fixed bottom-0 inset-x-0 z-40 lg:hidden bg-sidebar/95 backdrop-blur-md border-t border-sidebar-border" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
       <div className="flex items-stretch h-16">
+        {/* Bouton Tout — à gauche, ouvre le drawer */}
+        <button
+          onClick={onMenuOpen}
+          className="flex-1 flex flex-col items-center justify-center gap-0.5 text-[10px] font-medium text-sidebar-foreground/50 hover:text-sidebar-foreground transition-colors"
+        >
+          <LayoutGrid size={20} />
+          <span>Tout</span>
+        </button>
+
         {NAV_ITEMS.map(item => (
           <NavLink
             key={item.to}
@@ -34,12 +47,9 @@ export function BottomNav() {
           >
             {({ isActive }) => (
               <>
-                {/* Active pill */}
                 {isActive && (
                   <span className="absolute top-0 inset-x-3 h-0.5 rounded-full bg-primary" />
                 )}
-
-                {/* Icon ou kana */}
                 <span className={cn(
                   'flex items-center justify-center transition-transform',
                   isActive && 'scale-110',
@@ -47,8 +57,6 @@ export function BottomNav() {
                 )}>
                   {item.kana ?? item.icon}
                 </span>
-
-                {/* Label + badge */}
                 <span className="relative">
                   {item.label}
                   {item.to === '/flashcards' && dueCount > 0 && (
@@ -61,6 +69,7 @@ export function BottomNav() {
             )}
           </NavLink>
         ))}
+
       </div>
     </nav>
   )

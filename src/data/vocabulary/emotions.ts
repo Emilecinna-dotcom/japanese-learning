@@ -1,0 +1,31 @@
+import type { VocabTheme } from '@/types/vocabulary'
+
+export const EMOTIONS_THEME: VocabTheme = {
+  id: 'emotions',
+  labelFR: 'Les émotions',
+  icon: 'heart',
+  description: 'Sentiments, humeurs et états intérieurs',
+  colorClass: 'text-pink-500',
+  items: [
+    { id: 'em1',  japanese: '嬉しい', kana: 'うれしい', romaji: 'ureshii', frenchTranslation: 'heureux, content', category: 'positif', level: 'débutant', tags: ['émotion', 'adjectif'] },
+    { id: 'em2',  japanese: '悲しい', kana: 'かなしい', romaji: 'kanashii', frenchTranslation: 'triste', category: 'négatif', level: 'débutant', tags: ['émotion', 'adjectif'] },
+    { id: 'em3',  japanese: '怖い', kana: 'こわい', romaji: 'kowai', frenchTranslation: 'effrayant, apeuré', category: 'négatif', level: 'débutant', tags: ['émotion', 'adjectif'] },
+    { id: 'em4',  japanese: '楽しい', kana: 'たのしい', romaji: 'tanoshii', frenchTranslation: 'amusant, agréable', category: 'positif', level: 'débutant', tags: ['émotion', 'adjectif'] },
+    { id: 'em5',  japanese: '寂しい', kana: 'さびしい', romaji: 'sabishii', frenchTranslation: 'solitaire, qui manque', category: 'négatif', level: 'intermédiaire', tags: ['émotion', 'adjectif'] },
+    { id: 'em6',  japanese: '恥ずかしい', kana: 'はずかしい', romaji: 'hazukashii', frenchTranslation: 'gêné, honteux, timide', category: 'social', level: 'intermédiaire', tags: ['émotion', 'adjectif'] },
+    { id: 'em7',  japanese: '驚く', kana: 'おどろく', romaji: 'odoroku', frenchTranslation: 'être surpris, s\'étonner', category: 'réaction', level: 'intermédiaire', tags: ['émotion', 'verbe'] },
+    { id: 'em8',  japanese: '怒る', kana: 'おこる', romaji: 'okoru', frenchTranslation: 'se mettre en colère', category: 'négatif', level: 'débutant', tags: ['émotion', 'verbe'] },
+    { id: 'em9',  japanese: '笑う', kana: 'わらう', romaji: 'warau', frenchTranslation: 'rire, sourire', category: 'positif', level: 'débutant', tags: ['émotion', 'verbe'] },
+    { id: 'em10', japanese: '泣く', kana: 'なく', romaji: 'naku', frenchTranslation: 'pleurer', category: 'négatif', level: 'débutant', tags: ['émotion', 'verbe'] },
+    { id: 'em11', japanese: '心配', kana: 'しんぱい', romaji: 'shinpai', frenchTranslation: 'inquiétude, souci', category: 'négatif', level: 'débutant', tags: ['émotion', 'nom'] },
+    { id: 'em12', japanese: '緊張', kana: 'きんちょう', romaji: 'kinchou', frenchTranslation: 'tension, nervosité', category: 'social', level: 'intermédiaire', tags: ['émotion', 'nom'] },
+    { id: 'em13', japanese: '満足', kana: 'まんぞく', romaji: 'manzoku', frenchTranslation: 'satisfaction, contentement', category: 'positif', level: 'intermédiaire', tags: ['émotion', 'nom'] },
+    { id: 'em14', japanese: '感動', kana: 'かんどう', romaji: 'kandou', frenchTranslation: 'émotion profonde, être touché', category: 'positif', level: 'intermédiaire', tags: ['émotion', 'nom'] },
+    { id: 'em15', japanese: '退屈', kana: 'たいくつ', romaji: 'taikutsu', frenchTranslation: 'ennui, s\'ennuyer', category: 'négatif', level: 'intermédiaire', tags: ['émotion', 'nom'] },
+    { id: 'em16', japanese: 'ストレス', kana: 'ストレス', romaji: 'sutoresu', frenchTranslation: 'stress', category: 'négatif', level: 'intermédiaire', tags: ['émotion', 'katakana'] },
+    { id: 'em17', japanese: '感謝', kana: 'かんしゃ', romaji: 'kansha', frenchTranslation: 'gratitude, remerciement', category: 'positif', level: 'intermédiaire', tags: ['émotion', 'nom'] },
+    { id: 'em18', japanese: '後悔', kana: 'こうかい', romaji: 'koukai', frenchTranslation: 'regret, remords', category: 'négatif', level: 'intermédiaire', tags: ['émotion', 'nom'] },
+    { id: 'em19', japanese: '安心', kana: 'あんしん', romaji: 'anshin', frenchTranslation: 'soulagement, tranquillité', category: 'positif', level: 'intermédiaire', tags: ['émotion', 'nom'] },
+    { id: 'em20', japanese: '希望', kana: 'きぼう', romaji: 'kibou', frenchTranslation: 'espoir, souhait', category: 'positif', level: 'intermédiaire', tags: ['émotion', 'nom'] },
+  ],
+}

@@ -10,6 +10,7 @@ interface VocabQuizState {
   phase: 'question' | 'feedback' | 'complete'
   startTime: number
   quizMode: 'jp-to-fr' | 'fr-to-jp'
+  wrongIds: string[]
 }
 
 function shuffle<T>(arr: T[]): T[] {
@@ -27,8 +28,9 @@ function generateChoices(correct: VocabItem, all: VocabItem[], count = 4): Vocab
 }
 
 export function useVocabQuiz(items: VocabItem[], mode: 'jp-to-fr' | 'fr-to-jp' = 'jp-to-fr') {
-  const initState = (): VocabQuizState => {
-    const deck = shuffle(items)
+  const initState = (subset?: VocabItem[]): VocabQuizState => {
+    const pool = subset ?? items
+    const deck = shuffle(pool)
     return {
       deck,
       currentIndex: 0,
@@ -38,6 +40,7 @@ export function useVocabQuiz(items: VocabItem[], mode: 'jp-to-fr' | 'fr-to-jp' =
       phase: 'question',
       startTime: Date.now(),
       quizMode: mode,
+      wrongIds: [],
     }
   }
 
@@ -51,10 +54,12 @@ export function useVocabQuiz(items: VocabItem[], mode: 'jp-to-fr' | 'fr-to-jp' =
 
   const answer = useCallback((choiceId: string) => {
     if (state.phase !== 'question' || !currentItem) return
+    const isCorrect = choiceId === currentItem.id
     setState(prev => ({
       ...prev,
       selected: choiceId,
-      score: choiceId === currentItem.id ? prev.score + 1 : prev.score,
+      score: isCorrect ? prev.score + 1 : prev.score,
+      wrongIds: isCorrect ? prev.wrongIds : [...prev.wrongIds, currentItem.id],
       phase: 'feedback',
     }))
   }, [state.phase, currentItem])
@@ -76,6 +81,12 @@ export function useVocabQuiz(items: VocabItem[], mode: 'jp-to-fr' | 'fr-to-jp' =
 
   const restart = useCallback(() => setState(initState()), [items, mode]) // eslint-disable-line react-hooks/exhaustive-deps
 
+  const retryWrong = useCallback(() => {
+    const wrongItems = items.filter(v => state.wrongIds.includes(v.id))
+    if (wrongItems.length === 0) return
+    setState(initState(wrongItems))
+  }, [state.wrongIds, items]) // eslint-disable-line react-hooks/exhaustive-deps
+
   return {
     currentItem,
     choices: state.choices,
@@ -84,10 +95,12 @@ export function useVocabQuiz(items: VocabItem[], mode: 'jp-to-fr' | 'fr-to-jp' =
     phase: state.phase,
     currentIndex: state.currentIndex,
     total: state.deck.length,
+    wrongIds: state.wrongIds,
     quizMode: state.quizMode,
     durationSeconds: Math.round((Date.now() - state.startTime) / 1000),
     answer,
     next,
     restart,
+    retryWrong,
   }
 }

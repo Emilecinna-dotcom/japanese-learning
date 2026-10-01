@@ -1,0 +1,31 @@
+import type { VocabTheme } from '@/types/vocabulary'
+
+export const ACTIVITES_THEME: VocabTheme = {
+  id: 'activites',
+  labelFR: 'Activités & loisirs',
+  icon: 'dumbbell',
+  description: 'Sports, hobbies et activités quotidiennes',
+  colorClass: 'text-green-500',
+  items: [
+    { id: 'ac1',  japanese: 'スポーツ', kana: 'スポーツ', romaji: 'supootsu', frenchTranslation: 'sport', category: 'sport', level: 'débutant', tags: ['sport', 'katakana'] },
+    { id: 'ac2',  japanese: 'サッカー', kana: 'サッカー', romaji: 'sakkaa', frenchTranslation: 'football', category: 'sport', level: 'débutant', tags: ['sport', 'katakana'] },
+    { id: 'ac3',  japanese: '野球', kana: 'やきゅう', romaji: 'yakyuu', frenchTranslation: 'baseball', category: 'sport', level: 'débutant', tags: ['sport', 'culture'] },
+    { id: 'ac4',  japanese: '水泳', kana: 'すいえい', romaji: 'suiei', frenchTranslation: 'natation', category: 'sport', level: 'intermédiaire', tags: ['sport'] },
+    { id: 'ac5',  japanese: '登山', kana: 'とざん', romaji: 'tozan', frenchTranslation: 'randonnée, alpinisme', category: 'nature', level: 'intermédiaire', tags: ['sport', 'nature'] },
+    { id: 'ac6',  japanese: '音楽', kana: 'おんがく', romaji: 'ongaku', frenchTranslation: 'musique', category: 'arts', level: 'débutant', tags: ['loisirs', 'arts'] },
+    { id: 'ac7',  japanese: '絵', kana: 'え', romaji: 'e', frenchTranslation: 'dessin, peinture, image', category: 'arts', level: 'débutant', tags: ['loisirs', 'arts'] },
+    { id: 'ac8',  japanese: '料理', kana: 'りょうり', romaji: 'ryouri', frenchTranslation: 'cuisine (activité)', category: 'quotidien', level: 'débutant', tags: ['loisirs', 'nourriture'] },
+    { id: 'ac9',  japanese: '映画', kana: 'えいが', romaji: 'eiga', frenchTranslation: 'film, cinéma', category: 'divertissement', level: 'débutant', tags: ['loisirs', 'essentiel'] },
+    { id: 'ac10', japanese: '旅行', kana: 'りょこう', romaji: 'ryokou', frenchTranslation: 'voyage', category: 'voyage', level: 'débutant', tags: ['loisirs', 'voyage'] },
+    { id: 'ac11', japanese: '読書', kana: 'どくしょ', romaji: 'dokusho', frenchTranslation: 'lecture', category: 'culture', level: 'intermédiaire', tags: ['loisirs'] },
+    { id: 'ac12', japanese: 'ゲーム', kana: 'ゲーム', romaji: 'geemu', frenchTranslation: 'jeu vidéo, jeu', category: 'divertissement', level: 'débutant', tags: ['loisirs', 'katakana'] },
+    { id: 'ac13', japanese: 'カラオケ', kana: 'カラオケ', romaji: 'karaoke', frenchTranslation: 'karaoké', category: 'divertissement', level: 'débutant', tags: ['loisirs', 'katakana', 'culture'] },
+    { id: 'ac14', japanese: '散歩', kana: 'さんぽ', romaji: 'sanpo', frenchTranslation: 'promenade', category: 'nature', level: 'débutant', tags: ['loisirs'] },
+    { id: 'ac15', japanese: 'ショッピング', kana: 'ショッピング', romaji: 'shoppingu', frenchTranslation: 'shopping', category: 'quotidien', level: 'débutant', tags: ['loisirs', 'katakana'] },
+    { id: 'ac16', japanese: '写真', kana: 'しゃしん', romaji: 'shashin', frenchTranslation: 'photo, photographie', category: 'arts', level: 'débutant', tags: ['loisirs'] },
+    { id: 'ac17', japanese: '剣道', kana: 'けんどう', romaji: 'kendou', frenchTranslation: 'kendo', category: 'arts martiaux', level: 'intermédiaire', tags: ['sport', 'culture'] },
+    { id: 'ac18', japanese: '柔道', kana: 'じゅうどう', romaji: 'juudou', frenchTranslation: 'judo', category: 'arts martiaux', level: 'intermédiaire', tags: ['sport', 'culture'] },
+    { id: 'ac19', japanese: 'ハイキング', kana: 'ハイキング', romaji: 'haikingu', frenchTranslation: 'randonnée', category: 'nature', level: 'intermédiaire', tags: ['sport', 'katakana'] },
+    { id: 'ac20', japanese: 'ボランティア', kana: 'ボランティア', romaji: 'borantia', frenchTranslation: 'bénévolat, volontariat', category: 'social', level: 'intermédiaire', tags: ['loisirs', 'katakana'] },
+  ],
+}

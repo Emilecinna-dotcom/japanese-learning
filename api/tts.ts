@@ -10,7 +10,7 @@ export default async function handler(req: Request) {
 
   const url =
     `https://translate.google.com/translate_tts` +
-    `?ie=UTF-8&q=${encodeURIComponent(text)}&tl=ja&client=tw-ob&ttsspeed=0.6`
+    `?ie=UTF-8&q=${encodeURIComponent(text)}&tl=ja&client=tw-ob&ttsspeed=0.9`
 
   try {
     const res = await fetch(url, {

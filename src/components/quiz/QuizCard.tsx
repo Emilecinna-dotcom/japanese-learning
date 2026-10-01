@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { cn } from '@/lib/utils'
+import { SpeakButton } from '@/components/SpeakButton'
 
 interface Choice {
   id: string
@@ -10,6 +11,7 @@ interface QuizCardProps {
   question: string
   questionSub?: string
   questionLabel?: string
+  speakText?: string
   choices: Choice[]
   selected: string | null
   correctId: string
@@ -25,6 +27,7 @@ export function QuizCard({
   question,
   questionSub,
   questionLabel = 'Comment lit-on ce caractère ?',
+  speakText,
   choices,
   selected,
   correctId,
@@ -149,24 +152,27 @@ export function QuizCard({
       {/* Feedback bar */}
       {phase === 'feedback' && (
         <div className={cn(
-          'rounded-xl px-4 py-3 flex items-center justify-between animate-fade-up',
+          'rounded-xl px-4 py-3 flex items-center justify-between gap-3 animate-fade-up',
           isCorrect
             ? 'bg-emerald-50 border border-emerald-200 dark:bg-emerald-950/90 dark:border-emerald-800/60 backdrop-blur-sm'
             : 'bg-red-50 border border-red-200 dark:bg-red-950/90 dark:border-red-800/60 backdrop-blur-sm'
         )}>
-          <div>
-            {isCorrect ? (
-              <p className="text-sm font-bold text-emerald-700 dark:text-emerald-400">
-                正解！&nbsp;<span className="font-normal opacity-75">Parfait !</span>
-              </p>
-            ) : (
-              <div>
-                <p className="text-sm font-bold text-red-600 dark:text-red-400">不正解</p>
-                <p className="text-xs text-muted-foreground mt-0.5">
-                  Réponse : <span className="font-semibold text-foreground">{choices.find(c => c.id === correctId)?.label}</span>
+          <div className="flex items-center gap-2 min-w-0">
+            {speakText && <SpeakButton text={speakText} size="sm" className="shrink-0" />}
+            <div>
+              {isCorrect ? (
+                <p className="text-sm font-bold text-emerald-700 dark:text-emerald-400">
+                  正解！&nbsp;<span className="font-normal opacity-75">Parfait !</span>
                 </p>
-              </div>
-            )}
+              ) : (
+                <div>
+                  <p className="text-xs font-bold text-red-500 dark:text-red-400 uppercase tracking-wide mb-0.5">不正解</p>
+                  <p className="text-base font-bold text-foreground">
+                    {choices.find(c => c.id === correctId)?.label}
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
           <button
             onClick={onNext}

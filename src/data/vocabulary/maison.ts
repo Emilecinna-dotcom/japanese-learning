@@ -1,0 +1,31 @@
+import type { VocabTheme } from '@/types/vocabulary'
+
+export const MAISON_THEME: VocabTheme = {
+  id: 'maison',
+  labelFR: 'La maison',
+  icon: 'home',
+  description: 'Pièces, mobilier et vie à la maison',
+  colorClass: 'text-amber-600',
+  items: [
+    { id: 'ma1',  japanese: '家', kana: 'いえ', romaji: 'ie', frenchTranslation: 'maison, foyer', category: 'bâtiment', level: 'débutant', tags: ['maison', 'essentiel'] },
+    { id: 'ma2',  japanese: 'アパート', kana: 'アパート', romaji: 'apaato', frenchTranslation: 'appartement', category: 'bâtiment', level: 'débutant', tags: ['maison', 'katakana'] },
+    { id: 'ma3',  japanese: '部屋', kana: 'へや', romaji: 'heya', frenchTranslation: 'chambre, pièce', category: 'pièces', level: 'débutant', tags: ['maison', 'essentiel'] },
+    { id: 'ma4',  japanese: 'リビング', kana: 'リビング', romaji: 'ribingu', frenchTranslation: 'salon, pièce à vivre', category: 'pièces', level: 'débutant', tags: ['maison', 'katakana'] },
+    { id: 'ma5',  japanese: '台所', kana: 'だいどころ', romaji: 'daidokoro', frenchTranslation: 'cuisine (pièce)', category: 'pièces', level: 'débutant', tags: ['maison'] },
+    { id: 'ma6',  japanese: 'お風呂', kana: 'おふろ', romaji: 'ofuro', frenchTranslation: 'bain, salle de bain', category: 'pièces', level: 'débutant', tags: ['maison', 'culture'] },
+    { id: 'ma7',  japanese: 'トイレ', kana: 'トイレ', romaji: 'toire', frenchTranslation: 'toilettes', category: 'pièces', level: 'débutant', tags: ['maison', 'katakana'] },
+    { id: 'ma8',  japanese: '玄関', kana: 'げんかん', romaji: 'genkan', frenchTranslation: 'entrée (où l\'on retire ses chaussures)', category: 'pièces', level: 'intermédiaire', tags: ['maison', 'culture'] },
+    { id: 'ma9',  japanese: '窓', kana: 'まど', romaji: 'mado', frenchTranslation: 'fenêtre', category: 'éléments', level: 'débutant', tags: ['maison'] },
+    { id: 'ma10', japanese: '机', kana: 'つくえ', romaji: 'tsukue', frenchTranslation: 'bureau (meuble)', category: 'mobilier', level: 'débutant', tags: ['maison'] },
+    { id: 'ma11', japanese: '椅子', kana: 'いす', romaji: 'isu', frenchTranslation: 'chaise', category: 'mobilier', level: 'débutant', tags: ['maison'] },
+    { id: 'ma12', japanese: 'ベッド', kana: 'ベッド', romaji: 'beddo', frenchTranslation: 'lit', category: 'mobilier', level: 'débutant', tags: ['maison', 'katakana'] },
+    { id: 'ma13', japanese: '冷蔵庫', kana: 'れいぞうこ', romaji: 'reizouko', frenchTranslation: 'réfrigérateur', category: 'électroménager', level: 'débutant', tags: ['maison'] },
+    { id: 'ma14', japanese: '洗濯機', kana: 'せんたくき', romaji: 'sentakuki', frenchTranslation: 'machine à laver', category: 'électroménager', level: 'intermédiaire', tags: ['maison'] },
+    { id: 'ma15', japanese: 'エアコン', kana: 'エアコン', romaji: 'eakon', frenchTranslation: 'climatiseur', category: 'électroménager', level: 'débutant', tags: ['maison', 'katakana'] },
+    { id: 'ma16', japanese: '掃除', kana: 'そうじ', romaji: 'souji', frenchTranslation: 'ménage, nettoyage', category: 'tâches', level: 'débutant', tags: ['maison'] },
+    { id: 'ma17', japanese: '洗濯', kana: 'せんたく', romaji: 'sentaku', frenchTranslation: 'lessive, lavage', category: 'tâches', level: 'débutant', tags: ['maison'] },
+    { id: 'ma18', japanese: '料理', kana: 'りょうり', romaji: 'ryouri', frenchTranslation: 'cuisine (activité)', category: 'tâches', level: 'débutant', tags: ['maison', 'nourriture'] },
+    { id: 'ma19', japanese: '屋根', kana: 'やね', romaji: 'yane', frenchTranslation: 'toit', category: 'bâtiment', level: 'intermédiaire', tags: ['maison'] },
+    { id: 'ma20', japanese: '畳', kana: 'たたみ', romaji: 'tatami', frenchTranslation: 'tatami', category: 'éléments', level: 'intermédiaire', tags: ['maison', 'culture'] },
+  ],
+}
