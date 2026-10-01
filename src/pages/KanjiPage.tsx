@@ -1,14 +1,19 @@
 import { useState, useMemo } from 'react'
 import { Search, Brain, BookOpen } from 'lucide-react'
+import { SystemeEcritureInfo, KANJI_INFO } from '@/components/SystemeEcritureInfo'
 import { SpeakButton } from '@/components/SpeakButton'
+import { StrokeOrderGuide } from '@/components/drawing/StrokeOrderGuide'
 import { KANJI_N5 } from '@/data/kanji-n5'
+import { KANJI_N4 } from '@/data/kanji-n4'
 import { useVocabQuiz } from '@/hooks/useVocabQuiz'
 import { QuizCard } from '@/components/quiz/QuizCard'
 import { QuizResult } from '@/components/quiz/QuizResult'
 import { useProgressContext } from '@/hooks/useProgress'
+import { cn } from '@/lib/utils'
 import type { VocabItem } from '@/types/vocabulary'
+import type { KanjiEntry } from '@/types/kanji'
 
-function kanjiToVocabItem(k: typeof KANJI_N5[0]): VocabItem {
+function kanjiToVocabItem(k: KanjiEntry): VocabItem {
   return {
     id: k.id,
     japanese: k.character,
@@ -21,10 +26,8 @@ function kanjiToVocabItem(k: typeof KANJI_N5[0]): VocabItem {
   }
 }
 
-const KANJI_AS_VOCAB = KANJI_N5.map(kanjiToVocabItem)
-
 interface KanjiCardProps {
-  kanji: typeof KANJI_N5[0]
+  kanji: KanjiEntry
   isSeen?: boolean
   onClick: () => void
 }
@@ -40,20 +43,21 @@ function KanjiCard({ kanji, isSeen, onClick }: KanjiCardProps) {
         <span className="text-xs bg-primary/10 text-primary px-1.5 py-0.5 rounded-full shrink-0">{kanji.jlptLevel}</span>
       </div>
       <p className="text-xs font-medium text-foreground line-clamp-1">{kanji.meaningFR.join(', ')}</p>
-      <p className="text-xs text-muted-foreground mt-0.5">{kanji.onyomi.join('・')}</p>
+      <p className="text-xs text-muted-foreground mt-0.5 truncate">{kanji.onyomi.join('・')}</p>
       {isSeen && <span className="mt-1.5 inline-block w-1.5 h-1.5 rounded-full bg-primary" />}
     </button>
   )
 }
 
 interface KanjiDetailModalProps {
-  kanji: typeof KANJI_N5[0]
+  kanji: KanjiEntry
   onClose: () => void
   onMarkSeen: () => void
   isSeen: boolean
 }
 
 function KanjiDetailModal({ kanji, onClose, onMarkSeen, isSeen }: KanjiDetailModalProps) {
+  const [showGuide, setShowGuide] = useState(false)
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm" onClick={onClose}>
       <div className="bg-card rounded-2xl border border-border shadow-xl w-full max-w-md p-6 max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
@@ -94,6 +98,27 @@ function KanjiDetailModal({ kanji, onClose, onMarkSeen, isSeen }: KanjiDetailMod
           )}
         </div>
 
+        {/* Ordre des traits */}
+        <div className="mb-4">
+          <button
+            onClick={() => setShowGuide(v => !v)}
+            className="w-full flex items-center justify-between text-xs text-muted-foreground uppercase tracking-wide hover:text-foreground transition-colors py-1"
+          >
+            <span>Ordre des traits</span>
+            <span className="text-primary font-semibold normal-case tracking-normal">
+              {showGuide ? 'Masquer' : 'Voir le tracé'}
+            </span>
+          </button>
+          {showGuide && (
+            <div className="mt-2 space-y-1">
+              <p className="text-[11px] text-muted-foreground text-center">
+                Appuie sur <span className="font-semibold text-primary">Animer</span> pour voir les traits un par un
+              </p>
+              <StrokeOrderGuide character={kanji.character} />
+            </div>
+          )}
+        </div>
+
         <div>
           <p className="text-xs text-muted-foreground uppercase tracking-wide mb-2">Exemples</p>
           <div className="space-y-2">
@@ -126,38 +151,63 @@ function KanjiDetailModal({ kanji, onClose, onMarkSeen, isSeen }: KanjiDetailMod
 export function KanjiPage() {
   const { progress, markItemSeen } = useProgressContext()
   const [tab, setTab] = useState<'apprendre' | 'quiz'>('apprendre')
+  const [level, setLevel] = useState<'N5' | 'N4'>('N5')
   const [search, setSearch] = useState('')
-  const [selectedKanji, setSelectedKanji] = useState<typeof KANJI_N5[0] | null>(null)
+  const [selectedKanji, setSelectedKanji] = useState<KanjiEntry | null>(null)
 
-  const quiz = useVocabQuiz(KANJI_AS_VOCAB, 'jp-to-fr')
+  const kanjiList = level === 'N5' ? KANJI_N5 : KANJI_N4
+  const kanjiAsVocab = useMemo(() => kanjiList.map(kanjiToVocabItem), [kanjiList])
+  const quiz = useVocabQuiz(kanjiAsVocab, 'jp-to-fr')
 
   const filtered = useMemo(() => {
-    if (!search) return KANJI_N5
+    if (!search) return kanjiList
     const q = search.toLowerCase()
-    return KANJI_N5.filter(k =>
+    return kanjiList.filter(k =>
       k.character.includes(q) ||
       k.meaningFR.some(m => m.toLowerCase().includes(q)) ||
       k.onyomi.some(r => r.toLowerCase().includes(q)) ||
       k.kunyomi.some(r => r.toLowerCase().includes(q))
     )
-  }, [search])
+  }, [search, kanjiList])
 
   const seenCount = Object.keys(progress.kanji).length
+  const descriptions: Record<'N5' | 'N4', string> = {
+    N5: 'Les 50 kanji essentiels du niveau débutant JLPT N5',
+    N4: 'Les 110 kanji du niveau élémentaire JLPT N4',
+  }
 
   return (
     <div className="space-y-6">
       <div>
         <div className="flex items-start justify-between flex-wrap gap-3">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Kanji <span className="font-jp">漢字</span> N5</h1>
-            <p className="text-muted-foreground mt-1">Les 50 kanji essentiels du niveau débutant JLPT N5</p>
+            <h1 className="text-3xl font-bold tracking-tight">Kanji <span className="font-jp">漢字</span></h1>
+            <p className="text-muted-foreground mt-1">{descriptions[level]}</p>
           </div>
-          <div className="text-right">
-            <div className="text-2xl font-bold text-primary">{seenCount}/{KANJI_N5.length}</div>
-            <div className="text-xs text-muted-foreground">vus</div>
+          <div className="flex flex-col items-end gap-2">
+            <div className="flex gap-1 bg-muted p-1 rounded-xl">
+              {(['N5', 'N4'] as const).map(lv => (
+                <button
+                  key={lv}
+                  onClick={() => { setLevel(lv); setSearch('') }}
+                  className={cn(
+                    'px-3 py-1.5 rounded-lg text-xs font-bold tracking-wide transition-colors',
+                    level === lv ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'
+                  )}
+                >
+                  {lv}
+                </button>
+              ))}
+            </div>
+            <div className="text-right">
+              <div className="text-2xl font-bold text-primary">{seenCount}/{kanjiList.length}</div>
+              <div className="text-xs text-muted-foreground">vus</div>
+            </div>
           </div>
         </div>
       </div>
+
+      <SystemeEcritureInfo {...KANJI_INFO} />
 
       <div className="flex gap-1 bg-muted p-1 rounded-xl w-fit">
         {([['apprendre', 'Apprendre', BookOpen], ['quiz', 'Quiz', Brain]] as const).map(([key, label, Icon]) => (
@@ -206,7 +256,7 @@ export function KanjiPage() {
               total={quiz.total}
               durationSeconds={quiz.durationSeconds}
               onRestart={quiz.restart}
-              title="Kanji N5"
+              title={`Kanji ${level}`}
             />
           ) : quiz.currentItem ? (
             <QuizCard

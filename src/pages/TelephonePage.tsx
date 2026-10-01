@@ -43,15 +43,15 @@ function PhoneCard({ item, onClick }: PhoneCardProps) {
   return (
     <button
       onClick={onClick}
-      className="group bg-card border border-border rounded-xl p-3 text-left hover:border-primary/40 hover:shadow-md transition-all hover:-translate-y-0.5 flex flex-col gap-1.5"
+      className="group bg-card border border-border rounded-xl p-3 text-left hover:border-primary/40 hover:shadow-md transition-all hover:-translate-y-0.5 flex flex-col gap-1.5 overflow-hidden"
     >
-      <div className="flex items-start justify-between gap-1">
-        <span className="font-jp text-3xl leading-none">{item.kanji}</span>
-        <span className="text-lg leading-none mt-0.5">{item.emoji}</span>
+      <div className="flex items-start justify-between gap-1 min-w-0">
+        <span className="font-jp text-xl leading-none min-w-0 flex-1 overflow-hidden whitespace-nowrap block">{item.kanji}</span>
+        <span className="text-base leading-none mt-0.5 shrink-0">{item.emoji}</span>
       </div>
-      <p className="font-jp text-xs text-muted-foreground">{item.kana}</p>
-      <p className="text-xs font-medium text-foreground leading-tight">{item.fr}</p>
-      <span className={`self-start text-[10px] px-1.5 py-0.5 rounded-full border font-medium ${colorCls}`}>
+      <p className="font-jp text-xs text-muted-foreground truncate">{item.kana}</p>
+      <p className="text-xs font-medium text-foreground leading-tight line-clamp-2">{item.fr}</p>
+      <span className={`self-start text-[10px] px-1.5 py-0.5 rounded-full border font-medium truncate max-w-full ${colorCls}`}>
         <span className={`inline-block w-1 h-1 rounded-full mr-1 ${dotCls}`} />
         {item.category}
       </span>
@@ -205,7 +205,7 @@ export function TelephonePage() {
 
       {/* Référence grid */}
       {tab === 'référence' && (
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
           {filtered.map(item => (
             <PhoneCard key={item.id} item={item} onClick={() => { speak(item.kana); setSelected(item) }} />
           ))}

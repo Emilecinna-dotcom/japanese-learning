@@ -7,6 +7,14 @@ export type VocabThemeId =
   | 'corps'
   | 'temps'
   | 'salutations'
+  | 'travail'
+  | 'ville'
+  | 'emotions'
+  | 'ecole'
+  | 'maison'
+  | 'activites'
+  | 'meteo'
+  | 'vetements'
 
 export interface VocabItem {
   id: string

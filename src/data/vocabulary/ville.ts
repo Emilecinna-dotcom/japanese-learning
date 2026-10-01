@@ -1,0 +1,31 @@
+import type { VocabTheme } from '@/types/vocabulary'
+
+export const VILLE_THEME: VocabTheme = {
+  id: 'ville',
+  labelFR: 'La ville',
+  icon: 'building2',
+  description: 'Lieux, bâtiments et vie urbaine',
+  colorClass: 'text-blue-500',
+  items: [
+    { id: 'vi1',  japanese: '駅', kana: 'えき', romaji: 'eki', frenchTranslation: 'gare', category: 'transports', level: 'débutant', tags: ['ville', 'transport', 'essentiel'] },
+    { id: 'vi2',  japanese: '病院', kana: 'びょういん', romaji: 'byouin', frenchTranslation: 'hôpital', category: 'services', level: 'débutant', tags: ['ville', 'santé'] },
+    { id: 'vi3',  japanese: '郵便局', kana: 'ゆうびんきょく', romaji: 'yuubinkyoku', frenchTranslation: 'bureau de poste', category: 'services', level: 'débutant', tags: ['ville'] },
+    { id: 'vi4',  japanese: '銀行', kana: 'ぎんこう', romaji: 'ginkou', frenchTranslation: 'banque', category: 'services', level: 'débutant', tags: ['ville', 'argent'] },
+    { id: 'vi5',  japanese: '交差点', kana: 'こうさてん', romaji: 'kousaten', frenchTranslation: 'carrefour, intersection', category: 'navigation', level: 'intermédiaire', tags: ['ville', 'direction'] },
+    { id: 'vi6',  japanese: '信号', kana: 'しんごう', romaji: 'shingou', frenchTranslation: 'feu de circulation', category: 'navigation', level: 'intermédiaire', tags: ['ville', 'transport'] },
+    { id: 'vi7',  japanese: '道', kana: 'みち', romaji: 'michi', frenchTranslation: 'route, chemin, rue', category: 'navigation', level: 'débutant', tags: ['ville', 'direction'] },
+    { id: 'vi8',  japanese: 'コンビニ', kana: 'コンビニ', romaji: 'konbini', frenchTranslation: 'convenience store', category: 'commerces', level: 'débutant', tags: ['ville', 'katakana', 'culture'] },
+    { id: 'vi9',  japanese: 'デパート', kana: 'デパート', romaji: 'depaato', frenchTranslation: 'grand magasin', category: 'commerces', level: 'débutant', tags: ['ville', 'katakana'] },
+    { id: 'vi10', japanese: '公園', kana: 'こうえん', romaji: 'kouen', frenchTranslation: 'parc', category: 'loisirs', level: 'débutant', tags: ['ville', 'nature'] },
+    { id: 'vi11', japanese: '図書館', kana: 'としょかん', romaji: 'toshokan', frenchTranslation: 'bibliothèque', category: 'culture', level: 'débutant', tags: ['ville', 'étude'] },
+    { id: 'vi12', japanese: '映画館', kana: 'えいがかん', romaji: 'eigakan', frenchTranslation: 'cinéma', category: 'loisirs', level: 'débutant', tags: ['ville', 'loisirs'] },
+    { id: 'vi13', japanese: '市役所', kana: 'しやくしょ', romaji: 'shiyakusho', frenchTranslation: 'mairie', category: 'services', level: 'intermédiaire', tags: ['ville'] },
+    { id: 'vi14', japanese: '交番', kana: 'こうばん', romaji: 'kouban', frenchTranslation: 'poste de police de quartier', category: 'services', level: 'intermédiaire', tags: ['ville', 'culture'] },
+    { id: 'vi15', japanese: '神社', kana: 'じんじゃ', romaji: 'jinja', frenchTranslation: 'sanctuaire shinto', category: 'culture', level: 'intermédiaire', tags: ['ville', 'culture', 'religion'] },
+    { id: 'vi16', japanese: 'お寺', kana: 'おてら', romaji: 'otera', frenchTranslation: 'temple bouddhiste', category: 'culture', level: 'intermédiaire', tags: ['ville', 'culture', 'religion'] },
+    { id: 'vi17', japanese: '繁華街', kana: 'はんかがい', romaji: 'hankagai', frenchTranslation: 'quartier animé, centre commercial', category: 'lieux', level: 'avancé', tags: ['ville'] },
+    { id: 'vi18', japanese: '住宅街', kana: 'じゅうたくがい', romaji: 'juutakugai', frenchTranslation: 'quartier résidentiel', category: 'lieux', level: 'avancé', tags: ['ville'] },
+    { id: 'vi19', japanese: 'スーパー', kana: 'スーパー', romaji: 'suupaa', frenchTranslation: 'supermarché', category: 'commerces', level: 'débutant', tags: ['ville', 'katakana'] },
+    { id: 'vi20', japanese: '近所', kana: 'きんじょ', romaji: 'kinjo', frenchTranslation: 'voisinage, quartier', category: 'lieux', level: 'intermédiaire', tags: ['ville'] },
+  ],
+}

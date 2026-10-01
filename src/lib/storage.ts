@@ -15,6 +15,17 @@ export function defaultProgress(): ProgressState {
     vocabulary: {},
     grammar: {},
     flashcards: {},
+    ecriture: {},
+    conjugaison: {},
+    compteurs: {},
+    particules: { correct: 0, incorrect: 0, seen: [] },
+    lecture: {},
+    ecoute: { correct: 0, total: 0 },
+    production: { correct: 0, total: 0 },
+    savedWords: {},
+    ecritureSrs: {},
+    jlpt: [],
+    parcours: {},
   }
 }
 
@@ -23,8 +34,9 @@ export function loadProgress(): ProgressState {
     const raw = localStorage.getItem(STORAGE_KEY)
     if (!raw) return defaultProgress()
     const parsed = JSON.parse(raw) as ProgressState
-    if (parsed.version !== SCHEMA_VERSION) return defaultProgress()
-    return parsed
+    // Toujours fusionner avec les defaults : ajoute les nouveaux champs sans jamais
+    // effacer la progression existante, même après une mise à jour du site.
+    return { ...defaultProgress(), ...parsed, version: SCHEMA_VERSION }
   } catch {
     return defaultProgress()
   }

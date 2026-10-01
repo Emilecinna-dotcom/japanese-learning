@@ -1,0 +1,31 @@
+import type { VocabTheme } from '@/types/vocabulary'
+
+export const TRAVAIL_THEME: VocabTheme = {
+  id: 'travail',
+  labelFR: 'Le travail',
+  icon: 'briefcase',
+  description: "Bureau, emploi et vie professionnelle",
+  colorClass: 'text-slate-500',
+  items: [
+    { id: 'tr1',  japanese: '仕事', kana: 'しごと', romaji: 'shigoto', frenchTranslation: 'travail, emploi', category: 'emploi', level: 'intermédiaire', tags: ['travail', 'essentiel'] },
+    { id: 'tr2',  japanese: '会社', kana: 'かいしゃ', romaji: 'kaisha', frenchTranslation: 'entreprise, société', category: 'emploi', level: 'intermédiaire', tags: ['travail'] },
+    { id: 'tr3',  japanese: '社員', kana: 'しゃいん', romaji: 'shain', frenchTranslation: 'employé, salarié', category: 'emploi', level: 'intermédiaire', tags: ['travail', 'personnes'] },
+    { id: 'tr4',  japanese: '上司', kana: 'じょうし', romaji: 'joshi', frenchTranslation: 'supérieur, chef', category: 'relations', level: 'intermédiaire', tags: ['travail', 'personnes'] },
+    { id: 'tr5',  japanese: '部長', kana: 'ぶちょう', romaji: 'bucho', frenchTranslation: 'chef de service, directeur', category: 'titres', level: 'intermédiaire', tags: ['travail', 'personnes'] },
+    { id: 'tr6',  japanese: '会議', kana: 'かいぎ', romaji: 'kaigi', frenchTranslation: 'réunion', category: 'bureau', level: 'intermédiaire', tags: ['travail'] },
+    { id: 'tr7',  japanese: '書類', kana: 'しょるい', romaji: 'shorui', frenchTranslation: 'documents, papiers', category: 'bureau', level: 'intermédiaire', tags: ['travail'] },
+    { id: 'tr8',  japanese: 'メール', kana: 'メール', romaji: 'meeru', frenchTranslation: 'e-mail', category: 'communication', level: 'intermédiaire', tags: ['travail', 'katakana'] },
+    { id: 'tr9',  japanese: '残業', kana: 'ざんぎょう', romaji: 'zangyou', frenchTranslation: 'heures supplémentaires', category: 'emploi', level: 'intermédiaire', tags: ['travail'] },
+    { id: 'tr10', japanese: '休暇', kana: 'きゅうか', romaji: 'kyuuka', frenchTranslation: 'congé, vacances', category: 'emploi', level: 'intermédiaire', tags: ['travail'] },
+    { id: 'tr11', japanese: '給料', kana: 'きゅうりょう', romaji: 'kyuuryou', frenchTranslation: 'salaire', category: 'emploi', level: 'intermédiaire', tags: ['travail', 'argent'] },
+    { id: 'tr12', japanese: '退社', kana: 'たいしゃ', romaji: 'taisha', frenchTranslation: 'quitter le bureau, démissionner', category: 'emploi', level: 'intermédiaire', tags: ['travail'] },
+    { id: 'tr13', japanese: '出張', kana: 'しゅっちょう', romaji: 'shuccho', frenchTranslation: 'déplacement professionnel', category: 'emploi', level: 'intermédiaire', tags: ['travail', 'voyage'] },
+    { id: 'tr14', japanese: '面接', kana: 'めんせつ', romaji: 'mensetsu', frenchTranslation: 'entretien (embauche)', category: 'emploi', level: 'intermédiaire', tags: ['travail'] },
+    { id: 'tr15', japanese: '締め切り', kana: 'しめきり', romaji: 'shimekiri', frenchTranslation: 'date limite, deadline', category: 'bureau', level: 'intermédiaire', tags: ['travail'] },
+    { id: 'tr16', japanese: '資料', kana: 'しりょう', romaji: 'shiryou', frenchTranslation: 'matériaux, données, documentation', category: 'bureau', level: 'intermédiaire', tags: ['travail'] },
+    { id: 'tr17', japanese: '取引先', kana: 'とりひきさき', romaji: 'torihikisaki', frenchTranslation: 'client, partenaire commercial', category: 'relations', level: 'intermédiaire', tags: ['travail'] },
+    { id: 'tr18', japanese: '名刺', kana: 'めいし', romaji: 'meishi', frenchTranslation: 'carte de visite', category: 'bureau', level: 'intermédiaire', tags: ['travail', 'culture'] },
+    { id: 'tr19', japanese: 'アルバイト', kana: 'アルバイト', romaji: 'arubaito', frenchTranslation: 'petit boulot, temps partiel', category: 'emploi', level: 'intermédiaire', tags: ['travail', 'katakana'] },
+    { id: 'tr20', japanese: '昇進', kana: 'しょうしん', romaji: 'shoushin', frenchTranslation: 'promotion, avancement', category: 'emploi', level: 'avancé', tags: ['travail'] },
+  ],
+}

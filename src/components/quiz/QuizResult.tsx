@@ -1,4 +1,4 @@
-import { RotateCcw, Home } from 'lucide-react'
+import { RotateCcw, Home, RefreshCw } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 interface QuizResultProps {
@@ -7,9 +7,11 @@ interface QuizResultProps {
   durationSeconds: number
   onRestart: () => void
   title: string
+  wrongCount?: number
+  onRetryWrong?: () => void
 }
 
-export function QuizResult({ score, total, durationSeconds, onRestart, title }: QuizResultProps) {
+export function QuizResult({ score, total, durationSeconds, onRestart, title, wrongCount, onRetryWrong }: QuizResultProps) {
   const pct     = Math.round((score / total) * 100)
   const minutes = Math.floor(durationSeconds / 60)
   const seconds = durationSeconds % 60
@@ -52,7 +54,16 @@ export function QuizResult({ score, total, durationSeconds, onRestart, title }: 
         </div>
 
         {/* Actions */}
-        <div className="flex gap-3">
+        <div className="flex flex-wrap gap-3 justify-center">
+          {wrongCount !== undefined && wrongCount > 0 && onRetryWrong && (
+            <button
+              onClick={onRetryWrong}
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-red-500 text-white font-medium text-sm hover:bg-red-600 transition-colors"
+            >
+              <RefreshCw size={15} />
+              Refaire les {wrongCount} erreur{wrongCount > 1 ? 's' : ''}
+            </button>
+          )}
           <button
             onClick={onRestart}
             className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-primary-foreground font-medium text-sm hover:bg-primary/90 transition-colors"

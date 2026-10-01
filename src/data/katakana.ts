@@ -115,6 +115,46 @@ export const KATAKANA_ROWS: KanaRow[] = [
   },
 ]
 
+export const KATAKANA_YOUON: KanaCharacter[] = [
+  { id: 'KYA', kana: 'キャ', romaji: 'kya', frenchPhonetic: "'kya'",  row: 'k-youon',  column: 0, isDigraph: true, strokeCount: 5 },
+  { id: 'KYU', kana: 'キュ', romaji: 'kyu', frenchPhonetic: "'kyou'", row: 'k-youon',  column: 1, isDigraph: true, strokeCount: 5 },
+  { id: 'KYO', kana: 'キョ', romaji: 'kyo', frenchPhonetic: "'kyo'",  row: 'k-youon',  column: 2, isDigraph: true, strokeCount: 5 },
+  { id: 'SHA', kana: 'シャ', romaji: 'sha', frenchPhonetic: "'cha'",  row: 'sh-youon', column: 0, isDigraph: true, strokeCount: 5 },
+  { id: 'SHU', kana: 'シュ', romaji: 'shu', frenchPhonetic: "'chou'", row: 'sh-youon', column: 1, isDigraph: true, strokeCount: 5 },
+  { id: 'SHO', kana: 'ショ', romaji: 'sho', frenchPhonetic: "'cho'",  row: 'sh-youon', column: 2, isDigraph: true, strokeCount: 4 },
+  { id: 'CHA', kana: 'チャ', romaji: 'cha', frenchPhonetic: "'cha'",  row: 'ch-youon', column: 0, isDigraph: true, strokeCount: 5 },
+  { id: 'CHU', kana: 'チュ', romaji: 'chu', frenchPhonetic: "'tchou'",row: 'ch-youon', column: 1, isDigraph: true, strokeCount: 5 },
+  { id: 'CHO', kana: 'チョ', romaji: 'cho', frenchPhonetic: "'cho'",  row: 'ch-youon', column: 2, isDigraph: true, strokeCount: 4 },
+  { id: 'NYA', kana: 'ニャ', romaji: 'nya', frenchPhonetic: "'nya'",  row: 'ny-youon', column: 0, isDigraph: true, strokeCount: 5 },
+  { id: 'NYU', kana: 'ニュ', romaji: 'nyu', frenchPhonetic: "'nyou'", row: 'ny-youon', column: 1, isDigraph: true, strokeCount: 5 },
+  { id: 'NYO', kana: 'ニョ', romaji: 'nyo', frenchPhonetic: "'nyo'",  row: 'ny-youon', column: 2, isDigraph: true, strokeCount: 4 },
+  { id: 'HYA', kana: 'ヒャ', romaji: 'hya', frenchPhonetic: "'hya'",  row: 'hy-youon', column: 0, isDigraph: true, strokeCount: 4 },
+  { id: 'HYU', kana: 'ヒュ', romaji: 'hyu', frenchPhonetic: "'hyou'", row: 'hy-youon', column: 1, isDigraph: true, strokeCount: 4 },
+  { id: 'HYO', kana: 'ヒョ', romaji: 'hyo', frenchPhonetic: "'hyo'",  row: 'hy-youon', column: 2, isDigraph: true, strokeCount: 3 },
+  { id: 'MYA', kana: 'ミャ', romaji: 'mya', frenchPhonetic: "'mya'",  row: 'my-youon', column: 0, isDigraph: true, strokeCount: 5 },
+  { id: 'MYU', kana: 'ミュ', romaji: 'myu', frenchPhonetic: "'myou'", row: 'my-youon', column: 1, isDigraph: true, strokeCount: 5 },
+  { id: 'MYO', kana: 'ミョ', romaji: 'myo', frenchPhonetic: "'myo'",  row: 'my-youon', column: 2, isDigraph: true, strokeCount: 4 },
+  { id: 'RYA', kana: 'リャ', romaji: 'rya', frenchPhonetic: "'rya'",  row: 'ry-youon', column: 0, isDigraph: true, strokeCount: 4 },
+  { id: 'RYU', kana: 'リュ', romaji: 'ryu', frenchPhonetic: "'ryou'", row: 'ry-youon', column: 1, isDigraph: true, strokeCount: 4 },
+  { id: 'RYO', kana: 'リョ', romaji: 'ryo', frenchPhonetic: "'ryo'",  row: 'ry-youon', column: 2, isDigraph: true, strokeCount: 3 },
+  { id: 'GYA', kana: 'ギャ', romaji: 'gya', frenchPhonetic: "'gya'",  row: 'gy-youon', column: 0, isDigraph: true, strokeCount: 7 },
+  { id: 'GYU', kana: 'ギュ', romaji: 'gyu', frenchPhonetic: "'gyou'", row: 'gy-youon', column: 1, isDigraph: true, strokeCount: 7 },
+  { id: 'GYO', kana: 'ギョ', romaji: 'gyo', frenchPhonetic: "'gyo'",  row: 'gy-youon', column: 2, isDigraph: true, strokeCount: 6 },
+  { id: 'JA',  kana: 'ジャ', romaji: 'ja',  frenchPhonetic: "'dja'",  row: 'j-youon',  column: 0, isDigraph: true, strokeCount: 6 },
+  { id: 'JU',  kana: 'ジュ', romaji: 'ju',  frenchPhonetic: "'djou'", row: 'j-youon',  column: 1, isDigraph: true, strokeCount: 6 },
+  { id: 'JO',  kana: 'ジョ', romaji: 'jo',  frenchPhonetic: "'djo'",  row: 'j-youon',  column: 2, isDigraph: true, strokeCount: 5 },
+  { id: 'BYA', kana: 'ビャ', romaji: 'bya', frenchPhonetic: "'bya'",  row: 'by-youon', column: 0, isDigraph: true, strokeCount: 5 },
+  { id: 'BYU', kana: 'ビュ', romaji: 'byu', frenchPhonetic: "'byou'", row: 'by-youon', column: 1, isDigraph: true, strokeCount: 5 },
+  { id: 'BYO', kana: 'ビョ', romaji: 'byo', frenchPhonetic: "'byo'",  row: 'by-youon', column: 2, isDigraph: true, strokeCount: 4 },
+  { id: 'PYA', kana: 'ピャ', romaji: 'pya', frenchPhonetic: "'pya'",  row: 'py-youon', column: 0, isDigraph: true, strokeCount: 5 },
+  { id: 'PYU', kana: 'ピュ', romaji: 'pyu', frenchPhonetic: "'pyou'", row: 'py-youon', column: 1, isDigraph: true, strokeCount: 5 },
+  { id: 'PYO', kana: 'ピョ', romaji: 'pyo', frenchPhonetic: "'pyo'",  row: 'py-youon', column: 2, isDigraph: true, strokeCount: 4 },
+  { id: 'FA',  kana: 'ファ', romaji: 'fa',  frenchPhonetic: "'fa'",   row: 'f-youon',  column: 0, isDigraph: true, strokeCount: 4 },
+  { id: 'FI',  kana: 'フィ', romaji: 'fi',  frenchPhonetic: "'fi'",   row: 'f-youon',  column: 1, isDigraph: true, strokeCount: 3 },
+  { id: 'FE',  kana: 'フェ', romaji: 'fe',  frenchPhonetic: "'fé'",   row: 'f-youon',  column: 2, isDigraph: true, strokeCount: 4 },
+  { id: 'FO',  kana: 'フォ', romaji: 'fo',  frenchPhonetic: "'fo'",   row: 'f-youon',  column: 3, isDigraph: true, strokeCount: 4 },
+]
+
 export const ALL_KATAKANA: KanaCharacter[] = KATAKANA_ROWS.flatMap(r => r.characters)
 
 export const KATAKANA_MAP: Record<string, KanaCharacter> = Object.fromEntries(

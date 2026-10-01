@@ -1,8 +1,11 @@
 import { useState } from 'react'
-import { ChevronDown, ChevronUp, CheckCircle2 } from 'lucide-react'
+import { ChevronDown, ChevronUp, CheckCircle2, Eye, EyeOff } from 'lucide-react'
 import { GRAMMAR_POINTS } from '@/data/grammaire'
+import { SystemeEcritureInfo, GRAMMAIRE_INFO } from '@/components/SystemeEcritureInfo'
 import { cn } from '@/lib/utils'
 import { useProgressContext } from '@/hooks/useProgress'
+import { SpeakButton } from '@/components/SpeakButton'
+import { RubyText } from '@/components/RubyText'
 import type { GrammarPoint } from '@/types/grammar'
 
 const LEVEL_COLORS: Record<string, { pill: string; dot: string }> = {
@@ -35,6 +38,7 @@ interface GrammarAccordionProps {
 
 function GrammarAccordion({ point, isSeen, onSeen }: GrammarAccordionProps) {
   const [open, setOpen] = useState(false)
+  const [showFurigana, setShowFurigana] = useState(false)
   const level = LEVEL_COLORS[point.level] ?? LEVEL_COLORS.N5
 
   const handleToggle = () => {
@@ -89,14 +93,34 @@ function GrammarAccordion({ point, isSeen, onSeen }: GrammarAccordionProps) {
 
             {/* Exemples */}
             <div>
-              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-2">Exemples</p>
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Exemples</p>
+                <button
+                  onClick={() => setShowFurigana(f => !f)}
+                  className={cn(
+                    'flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded-lg transition-colors',
+                    showFurigana ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                  )}
+                >
+                  {showFurigana ? <EyeOff size={11} /> : <Eye size={11} />}
+                  Furigana
+                </button>
+              </div>
               <div className="space-y-2">
                 {point.examples.map((ex, i) => (
                   <div key={i} className="bg-muted border border-border rounded-xl p-3 flex gap-3">
                     <span className="text-primary font-bold text-xs mt-0.5 shrink-0">{i + 1}</span>
-                    <div>
-                      <p className="font-jp font-semibold text-base">{ex.japanese}</p>
-                      <p className="font-jp text-xs text-muted-foreground mt-0.5">{ex.kana}</p>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start gap-2">
+                        <RubyText
+                          text={ex.japanese}
+                          reading={ex.kana}
+                          showFurigana={showFurigana}
+                          className={cn('font-jp font-semibold text-base leading-relaxed', showFurigana && 'mt-2')}
+                        />
+                        <SpeakButton text={ex.japanese} size="sm" className="shrink-0 mt-0.5" />
+                      </div>
+                      {!showFurigana && <p className="font-jp text-xs text-muted-foreground mt-0.5">{ex.kana}</p>}
                       <p className="text-sm mt-1 text-foreground/80">{ex.frenchTranslation}</p>
                       {ex.note && <p className="text-xs text-primary mt-1 font-medium">→ {ex.note}</p>}
                     </div>
@@ -188,6 +212,8 @@ export function GrammairePage() {
           </div>
         </div>
       </div>
+
+      <SystemeEcritureInfo {...GRAMMAIRE_INFO} />
 
       {/* Filtres catégories */}
       <div className="flex flex-wrap gap-2">

@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo, useEffect } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import type { KanaCharacter } from '@/types/kana'
 
 interface QuizState {
@@ -9,6 +9,7 @@ interface QuizState {
   score: number
   phase: 'question' | 'feedback' | 'complete'
   startTime: number
+  wrongIds: string[]
 }
 
 function shuffle<T>(arr: T[]): T[] {
@@ -25,36 +26,40 @@ function generateChoices(correct: KanaCharacter, all: KanaCharacter[], count = 4
   return shuffle([correct, ...distractors])
 }
 
+function buildInitialState(deckSource: KanaCharacter[], allKana: KanaCharacter[]): QuizState {
+  const deck = shuffle(deckSource)
+  return {
+    deck,
+    currentIndex: 0,
+    choices: deck.length > 0 ? generateChoices(deck[0], allKana) : [],
+    selected: null,
+    score: 0,
+    phase: 'question',
+    startTime: Date.now(),
+    wrongIds: [],
+  }
+}
+
 export function useKanaQuiz(allKana: KanaCharacter[], subset?: KanaCharacter[]) {
   const deckSource = subset ?? allKana
 
-  const initialState = useMemo((): QuizState => {
-    const deck = shuffle(deckSource)
-    return {
-      deck,
-      currentIndex: 0,
-      choices: deck.length > 0 ? generateChoices(deck[0], allKana) : [],
-      selected: null,
-      score: 0,
-      phase: 'question',
-      startTime: Date.now(),
-    }
-  }, [deckSource, allKana])
+  const [state, setState] = useState<QuizState>(() => buildInitialState(deckSource, allKana))
 
-  const [state, setState] = useState<QuizState>(initialState)
-
+  // Réinitialise quand le filtre change (comme useVocabQuiz)
   useEffect(() => {
-    setState(initialState)
-  }, [deckSource.length]) // eslint-disable-line react-hooks/exhaustive-deps
+    setState(buildInitialState(deckSource, allKana))
+  }, [deckSource, allKana]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const currentCard = state.deck[state.currentIndex] as KanaCharacter | undefined
 
   const answer = useCallback((choiceId: string) => {
     if (state.phase !== 'question' || !currentCard) return
+    const isCorrect = choiceId === currentCard.id
     setState(prev => ({
       ...prev,
       selected: choiceId,
-      score: choiceId === currentCard.id ? prev.score + 1 : prev.score,
+      score: isCorrect ? prev.score + 1 : prev.score,
+      wrongIds: isCorrect ? prev.wrongIds : [...prev.wrongIds, currentCard.id],
       phase: 'feedback',
     }))
   }, [state.phase, currentCard])
@@ -77,16 +82,14 @@ export function useKanaQuiz(allKana: KanaCharacter[], subset?: KanaCharacter[]) 
   }, [allKana])
 
   const restart = useCallback(() => {
-    setState({
-      deck: shuffle(deckSource),
-      currentIndex: 0,
-      choices: deckSource.length > 0 ? generateChoices(shuffle(deckSource)[0], allKana) : [],
-      selected: null,
-      score: 0,
-      phase: 'question',
-      startTime: Date.now(),
-    })
+    setState(buildInitialState(deckSource, allKana))
   }, [deckSource, allKana])
+
+  const retryWrong = useCallback(() => {
+    const wrongKana = allKana.filter(k => state.wrongIds.includes(k.id))
+    if (wrongKana.length === 0) return
+    setState(buildInitialState(wrongKana, allKana))
+  }, [state.wrongIds, allKana])
 
   const durationSeconds = Math.round((Date.now() - state.startTime) / 1000)
 
@@ -98,9 +101,11 @@ export function useKanaQuiz(allKana: KanaCharacter[], subset?: KanaCharacter[]) 
     phase: state.phase,
     currentIndex: state.currentIndex,
     total: state.deck.length,
+    wrongIds: state.wrongIds,
     durationSeconds,
     answer,
     next,
     restart,
+    retryWrong,
   }
 }

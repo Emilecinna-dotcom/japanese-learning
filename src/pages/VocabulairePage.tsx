@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Brain, BookOpen, ArrowLeft, CheckCircle2 } from 'lucide-react'
 import { SpeakButton } from '@/components/SpeakButton'
+import { SystemeEcritureInfo, VOCABULAIRE_INFO } from '@/components/SystemeEcritureInfo'
 import { ALL_THEMES } from '@/data/vocabulary'
 import { useVocabQuiz } from '@/hooks/useVocabQuiz'
 import { QuizCard } from '@/components/quiz/QuizCard'
@@ -99,13 +100,12 @@ function ThemeDetailView({ theme, onBack }: ThemeDetailViewProps) {
               >
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex-1 min-w-0">
-                    {/* Japonais + kana + romaji */}
+                    {/* Japonais + kana */}
                     <div className="flex items-baseline gap-3 flex-wrap mb-1">
                       <span className="font-jp-serif text-2xl font-bold text-foreground">{item.japanese}</span>
                       {item.kana !== item.japanese && (
                         <span className="font-jp text-sm text-muted-foreground">{item.kana}</span>
                       )}
-                      <span className="text-xs text-muted-foreground font-mono tracking-wide">{item.romaji}</span>
                     </div>
                     {/* Traduction */}
                     <p className="text-base font-semibold text-foreground">{item.frenchTranslation}</p>
@@ -144,6 +144,8 @@ function ThemeDetailView({ theme, onBack }: ThemeDetailViewProps) {
               durationSeconds={quiz.durationSeconds}
               onRestart={quiz.restart}
               title={theme.labelFR}
+              wrongCount={quiz.wrongIds.length}
+              onRetryWrong={quiz.retryWrong}
             />
           ) : quiz.currentItem ? (
             <QuizCard
@@ -199,6 +201,8 @@ export function VocabulairePage() {
             style={{ width: `${(totalSeen / totalVocab) * 100}%` }} />
         </div>
       </div>
+
+      <SystemeEcritureInfo {...VOCABULAIRE_INFO} />
 
       {/* Grille des thèmes */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
